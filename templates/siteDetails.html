@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SiteDetails</title>
+  <link rel="stylesheet" href="{% static 'styles.css' %}">
+  <!-- Load plotly.js into the DOM -->
+  <script src="plotly-2.20.0.min.js" charset="utf-8"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <img class="logo" src="{% static 'images/logo.jpg' %}"  alt="Icon">
+        <a href="/home">Home</a>
+        <a href="/site_details">Site Details</a>
+        <a href="/alert">Alert</a>
+        <a href="/fault">Fault Log</a>
+        <a href="/logout">Log Out</a>
+    </div>
+            <div class="row" >
+                <div class="nav">
+                  <table class="navbartable">
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th><h1>Solar Water Pump Remote Monitoring System</h1></th>
+                      <th></th>
+                      <th>Login By :  <br> {{user.username}} <br> {{user.last_login}} </th>
+                  </tr>
+                </table>
+                 
+                </div>
+            </div>
+            <div class="row">
+                <div class="testingLeftHalf">  
+                  <table>
+                    <tr>
+                      <th><label class="label">State :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    <tr>
+                      <th><label class="label">District :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    <tr>
+                      <th><label class="label">RMD ID :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    <tr>
+                      <th><label class="label">Beneficiary Name :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    <tr>
+                      <th><label class="label">Site Address :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                  </table>                                      
+                  </div>
+                  <div class="testingRightHalf">
+                   <br>
+                   <br>
+                   <br>
+                   <label class="geolabel">Geo Tagging Coordinates :  Latitude-  <input class="dashboardInput">  Longitude- <input class="dashboardInput"> </label>
+                   <br>
+                   <br>
+                   <br>
+                   {% for i in data %}
+                  <table class="tablesiteDetails">
+                    <tr>
+                      <th  colspan="2">Contractor Details</th>
+                      <th  colspan="2">Solar Panel</th>
+                      <th  colspan="2">Controller</th>
+                      <th  colspan="2">Water Pump</th>
+                    </tr>
+                    <tr>
+                      <td>Name:</td>
+                      <td>{{i.contractor_name}}</td>
+                      <td>Make:</td>
+                      <td>blank</td>
+                      <td>Make:</td>
+                      <td>blank</td>
+                      <td>Make:</td>
+                      <td>blank</td>
+                    </tr>
+                    <tr>
+                      <td>Number:</td>
+                      <td>{{i.contractor_number}}</td>
+                      <td>Wattage:</td>
+                      <td>{{i.wattage}}</td>
+                      <td>Capacity:</td>
+                      <td>{{i.capacity}}</td>
+                      <td>Model No.:</td>
+                      <td>1234</td>
+                    </tr>
+                    <tr>
+                      <td>Date of <br>Installation :</td>
+                      <td>{{i.date_of_installation}}</td>
+                      <td>No. of <br> Panels:</td>
+                      <td>{{i.no_of_panels}}</td>
+                      <td>Serial No.:</td>
+                      <td>{{i.serial_numbers}}</td>
+                      <td>Capacity</td>
+                      <td>{{i.capacity}}</td>
+                    </tr>
+                    <tr>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>Serial No.:</td>
+                      <td>{{i.serial_numbers}}</td>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>Dynamic Head</td>
+                      <td>blank</td>
+                    </tr>
+                    <tr>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>ICCID</td>
+                      <td>blank</td>
+                    </tr>
+                    <tr>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>IMEI</td>
+                      <td>{{i.imei}}</td>
+                    </tr>
+                    <tr>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>Rating</td>
+                      <td>99</td>
+                    </tr>
+                  </table> 
+                  {% endfor %}
+                  <br>
+                  <br>
+                  <br>
+                  </div>             
+                </div>       
+          <script src="{% static 'home.js' %}"></script>
+    </div>
+</body>
+</html>

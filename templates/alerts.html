@@ -1,0 +1,685 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>alerts</title>
+  {% comment %} <link rel="stylesheet" href="{% static 'styles.css' %}"> {% endcomment %}
+  <!-- Load plotly.js into the DOM -->
+  <script src="{% static 'plotly-2.20.0.min.js' %}" charset="utf-8"></script>
+  <style>
+        body {
+      /*background-image: url('../background.jpg');*/
+      background-size: cover;
+      background-repeat: repeat;
+      background-position: center;
+      background-color: rgb(231, 226, 226);
+    }
+    .label {
+      color: #000000; /* Change this to the desired color */
+      width: 130px;
+      text-align: center;
+      font-size: medium;
+      font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-weight: bold;
+    }
+    th, td {
+      padding: 15px;
+      color: #000000;
+    }
+.sidebar {
+  margin-top: 80px;
+  padding: 0;
+  width: 130px;
+  background-color: rgb(231, 226, 226);
+  position:absolute;
+  height: 100%;
+  overflow: auto;
+  font-size: large;
+  font-weight: bold;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  border: #000000;
+  align-content: center;
+  align-items: center;
+  align-self: center;
+  text-align: center;
+}
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+ .sidebar a.active {
+  background-color: #0407aa;
+  color: white;
+}
+
+.sidebar a:hover:not(.active) {
+  background-color: #1d04aa;
+  color: white;
+}
+
+div.content {
+  margin-left: 125px;
+  padding: 2px 16px;
+  height: 1000px;
+}
+
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+}
+h4 {
+  color: #0e0d0d;
+  text-align: center;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+h1 {
+  color: #ffffff;
+  text-align: center;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  size:10cm ;
+  font-weight:bolder;
+ }
+ 
+button{
+  font-size: medium;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+/* Value Button & Left side bar */
+table{
+  align-self: center;
+  text-align: left;
+  color: rgb(255, 255, 255);
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: medium;
+  font-weight: bold;
+  border-color: #161616;
+}
+* {
+  box-sizing: border-box;
+}
+.nav {
+  float:right;
+  grid-column: 1 / span 3;
+  grid-row: 3; 
+  width: 1270px;
+  height:70px;
+  display: grid;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  text-align:justify;
+  margin-bottom: 15px;
+  margin-top: 7px;
+  margin-left: 7px;
+  margin-right:7px;
+  background-size:auto;
+  /*background-image: url('green3.jpg');*/
+  color: rgb(255, 255, 255);
+  background-repeat: repeat;
+  background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+  background-color: #184b02;
+}
+.navbartable th td{
+  margin-top: 0;
+  color: #ffffff;
+  text-align: center;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  size:10cm ;
+  font-weight:bolder; 
+  color: rgb(255, 255, 255);
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: medium;
+  font-weight: bold;
+}
+.navbartable th, td {
+  padding: 0px;
+  color: #ffffff;
+  text-align: center;
+}
+  .testingRightHalf {
+  float:right;
+  padding: 10px;
+  width: 72.5%;
+  background-color: #ffffff;
+  height:100%;
+  grid-column: 1 / span 3;
+  grid-row: 3;
+  display: grid;
+  margin-right: 10px;
+  margin-left: 10px;
+  background-size: cover;
+  background-image: url('green2.jpg');
+  background-repeat: repeat;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  .testingLeftHalf {
+    float:right;
+  padding: 10px;
+  width: 15%;
+  background-color:rgb(231, 226, 226);
+  height:100%;
+  grid-column: 1 / span 3;
+  grid-row: 3;
+  display: grid;
+  margin-right: 10px;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  .valuebutton {
+  width: 70%;
+  font-size: 15px;
+  padding: 10px 20px;
+  border: 1px;
+  background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+  background-color: #56b32e;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  border-radius: 12px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.valuebutton:hover {
+  background-color: #0542b4;
+}
+/*.valuebutton .label {
+  background-color: #dcd9e7;
+}
+.valuebutton .value {
+  background-color: #8bcbff;
+}*/
+.dashboardInput{
+  -webkit-box-align: center;
+  /*width :fit-content;*/
+  width: 150px;
+  height: 25px;
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: medium;
+  border-radius: 10px;
+}
+.tableData {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  align-items: start;
+  border: 1px solid #1e0db6;
+  text-align: center;
+}
+.pumplist td{
+  border: 1px solid #000000;
+  padding: 2px;
+  /*background-color: #56b32e;*/
+  background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+  background-color:#56b32e;
+  text-align: center;
+  color: rgb(255, 255, 255);
+
+}
+.pumplist tr:nth-child(even){background-color: rgb(235, 252, 238);}
+.pumplist tr:nth-child(odd){background-color: rgb(255, 255, 255);}
+.pumplist tr:hover {background-color: #56b32e;}
+.pumplist th {
+  padding-top:1px;
+  padding-bottom: 1px;
+  text-align: center;
+  /*background-color:rgb(126, 243, 141);*/
+  color: rgb(0, 0, 0);
+  border-color: rgb(231, 226, 226);
+  align-items:flex-start;
+  align-content: center;
+  align-self:auto;
+  border: 1px solid #000000;
+}
+.home {
+  background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+}
+.alert {
+  background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+}
+.fault {
+  background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+}
+.siteDetails {
+  background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+}
+/* Home Page Style end */
+
+
+/* Site Details Page Style */
+.tablesiteDetails th{
+  border: 1px solid #000000;
+  padding: 10px;
+  /*background-color: #56b32e;*/
+  background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+  background-color:#56b32e;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-size: large;
+}
+.tablesiteDetails tr:nth-child(even){background-color: #b1fd9d;}
+.tablesiteDetails tr:nth-child(odd){background-color: rgb(255, 255, 255);}
+.tablesiteDetails tr:hover {background-color: #56b32e;}
+.tablesiteDetails td {
+  padding-top:1px;
+  padding-bottom: 1px;
+  text-align: left;
+  /*background-color:rgb(126, 243, 141);*/
+  color: rgb(0, 0, 0);
+  align-items:flex-start;
+  align-content: center;
+  align-self:auto;
+  border: 1px solid #000000;
+  padding: 8px;
+}
+.geolabel{
+  border-collapse: collapse;
+  font-size: large;
+  font-weight: bold;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.siteDetails{
+  color: #59eb1a;
+}
+/* site details page style end*/
+
+/* DashBoard Page Style start */
+.container{
+  width: 80vw;
+  height:80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-image: url('solarsheet.jpg');
+  background-size: cover;
+  background-repeat: repeat;
+  background-position: center; 
+}
+.header{
+  width: 50%;
+  text-align: center;
+}
+.header h1{
+  font-size: 2em;
+  text-transform: uppercase;
+  color: var(--textColor);
+}
+.products{
+  width: 100%;
+  align-self: center;
+  height: 70%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.product{
+  position: relative;
+  background-color: var(--sectionBack);
+  width: 250px;
+  height: 100Px;
+  box-shadow: 0 5px 20px rgb(255, 245, 245);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding:5px 5px 20px;
+  border-radius: 10px;
+  transition: .3s;
+}
+.image{
+  width:100%;
+  height: 60%;
+  display: grid;
+  place-content: center;
+}
+.image img{
+  width: 240px;
+}
+.namePrice{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.namePrice h3{
+  font-size: 0.9em;
+  text-transform: capitalize;
+  color: var(--textColor);
+  padding: 10px 10px 10px;
+}
+.namePrice span{
+  font-size: 1em;
+  color: var(--starColor);
+  text-align: justify;
+  padding: 10px 10px 10px;
+}
+.parameter span{
+  font-size: 1em;
+  color: var(--parameter);
+  text-align: justify;
+  padding: 10px 10px 10px;
+}
+.namePrice h1{
+  font-size: 1em;
+  color:#838181;
+  text-align: justify;
+}
+/* Alert Page */
+.digitalclock{
+background-color: black;
+color: rgb(209, 15, 15);
+font-size: 1.2em;
+width: 100px;
+height: 50px;
+font-weight: bold;
+}
+.h2{
+text-align: center;
+color: rgb(247, 10, 10);
+font-style: italic;
+}
+.status{
+  text-align: center;
+  padding: 0%;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight:bolder;
+  font-size:x-large;
+}
+.off{
+  color: red;
+}
+.onFault{
+  color: #56b32e;
+}
+.tableAlert th {
+  border: 2px solid #000000;
+  padding: 10px;
+  background-color: #ffffff;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: large;
+}
+.alertColumn{
+  border: 2px solid #000000;
+  padding: 10px;
+  background-color: #ffffff;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: xx-large;
+  text-align: center;
+}
+.radioAlert {
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  accent-color: red;
+}
+
+/* Fault Page*/
+.tableFault {
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  border-collapse: collapse;
+  width: 100%;
+  align-items: start;
+  color: white;
+}
+.tableFault td {
+  border: 1px solid #000000;
+  padding: 8px;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: rgb(0, 0, 0);
+  padding:20px 20px 20px;
+}
+.tableFault tr:nth-child(even){background-color: #b1fd9d;}
+.tableFault tr:nth-child(odd){background-color: rgb(255, 255, 255);}
+.tableFault tr:hover {background-color: #56b32e;}
+.tableFault th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+  color: white;
+  border-color: rgb(0, 0, 0);
+  align-items:flex-start;
+  align-content: center;
+  align-self:auto;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  padding:20px 20px 20px;
+  font-size: large;
+}
+/* Historic Data Pages */
+.btn-group button {
+  background-color: #9ee76d; /* Green background */
+  border: 1px solid rgb(0, 0, 0); /* Green border */
+  color: rgb(0, 0, 0); /* White text */
+  padding: 10px 30px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+  margin-right: 1px;
+  margin-left: 1px;
+  size: 100px;
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #56b32e;
+}
+.download{
+  font-size: x-large;
+}
+.historicRightHalf {
+  float:right;
+  padding: 10px;
+  width: 72.5%;
+  background-color: rgb(231, 226, 226);
+  height:100%;
+  grid-column: 1 / span 3;
+  grid-row: 3;
+  display: grid;
+  margin-right: 10px;
+  margin-left: 10px;
+  background-size: cover;
+  background-repeat: repeat;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  .graph{
+    background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+    color: #ffffff;
+  }
+  .table{
+    background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+    color: #ffffff;
+  }
+  .year{
+    background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+    color: #ffffff;
+    
+  }
+  .month{
+    background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+    color: #ffffff;
+  }
+  .week{
+    background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+    color: #ffffff;
+  }
+  .day{
+    background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+    color: #ffffff;
+  }
+  .tableData {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    border-collapse: collapse;
+    width: 95%;
+    align-items: start;
+    border: 1px solid #1e0db6;
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: black;
+    margin-left:0%;
+    margin-right:0%;
+    padding: 0%;
+  }
+  .tableData td, .tableFault th {
+    border: 1px solid #000000;
+    padding: 10px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: black;  
+  }
+  .tableData tr:nth-child(even){background-color: #b1fd9d;}
+  .tableData tr:nth-child(odd){background-color: rgb(255, 255, 255);}
+  .tableData tr:hover {background-color: #56b32e;}
+  .tableData th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+    color: rgb(255, 255, 255);
+    border-color: rgb(0, 0, 0);
+    align-items:flex-start;
+    align-content: center;
+    align-self:auto;
+    border: 1px solid #000000;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  </style>
+</head>
+<body>
+    <div class="sidebar">
+      <br>
+        <img class="logo" src="{% static 'images/logo.jpg' %}"  alt="Icon">
+        <br>
+        <a href="/home">Home</a>
+        <a href="/site_details">Site Details</a>
+        <a href="/alert">Alert</a>
+        <a href="/fault">Fault Log</a>
+        <a href="/logout">Log Out</a>
+    </div>
+            <div class="row" >
+                <div class="nav">
+                  <table class="navbartable">
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th><h1>Solar Water Pump Remote Monitoring System</h1></th>
+                      <th></th>
+                      <th>Login By :  <br> {{user.username}} <br> {{user.last_login}} </th>
+                  </tr>
+                </table>
+                 
+                </div>
+            </div>
+            <div class="row">
+                <div class="testingLeftHalf">  
+                  <table>
+                    <tr>
+                      <th><label class="label">State :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    <tr>
+                      <th><label class="label">District :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    <tr>
+                      <th><label class="label">RMD ID :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    <tr>
+                      <th><label class="label">Beneficiary Name :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    <tr>
+                      <th><label class="label">Site Address :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                  </table>                                      
+                  </div>
+                  <div class="testingRightHalf">
+                    <br>
+
+                      <table class="status">
+                          <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Status :</th>
+                            <th class="on">ON</th>
+                            <th class="off">OFF</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            
+                          </tr>
+                      </table>
+                      <br> 
+                     
+                    <table class="tableAlert">
+                      <tr>
+                          <th class="alertColumn" rowspan="7">Alerts</th>
+                      </tr>
+                      <tr>
+                          <th><input type="radio" class="radioAlert" id="radio" value="radio">Tank Full</th>
+                      </tr>
+                      <tr>
+                          <th><input type="radio" class="radioAlert" id="radio" value="radio">Dry Run</th>
+                      </tr>
+                      <tr>
+                          <th><input type="radio" class="radioAlert" id="radio" value="radio">Overload</th>
+                      <tr>
+                      <tr> 
+                          <th><input type="radio" class="radioAlert" id="radio" value="radio">Short Circuit</th>
+                      </tr>
+                      <tr>
+                          <th><input type="radio" class="radioAlert" id="radio" value="radio">Low Power Generation</th>
+                      </tr>
+                     </table>
+                     <br>
+                     <br>
+                     <br>
+                     <br>
+                     <br>
+                     <br>
+                     <br>
+                     <br>
+                     <br> 
+                  </div>             
+                </div>       
+          <script src="{% static 'home.js' %}"></script>
+    </div>
+</body>
+</html>

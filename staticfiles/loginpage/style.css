@@ -1,0 +1,52 @@
+body {
+    /*background-image: url('../background.jpg');*/
+    background-size: cover;
+    background-repeat: repeat;
+    background-position: center;
+    background-color: #ebebeb;
+  }
+  .header{
+    text-align: center;
+  }
+  .logo{
+    text-align: center;
+  }
+
+  .label{
+    text-align:left;
+    color: #000000; /* Change this to the desired color */
+    width: 130px;
+    font-size:large;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+    margin-left: auto; 
+    margin-right: auto;
+    border-radius: 20px;  
+  }
+  .input {
+    -webkit-box-align: center;
+    /*width :fit-content;*/
+    width: 170px;
+    height: 25px;
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: medium;
+    border-radius: 10px;
+  }
+  .Login{
+    font-size:large;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+    width: 80px;
+    text-align: center;
+    border-radius: 10px;
+    align-items: start;
+  }
+  .campanyName{
+      color: #0cbb0c;
+      text-align: center;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-size:xx-large;
+      font-weight:bolder;
+     }
+  

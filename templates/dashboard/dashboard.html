@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  {% comment %} <link rel="stylesheet" href="styles.css"> {% endcomment %}
+  <link rel="stylesheet" href="{%static 'dashboard/styles.css' %}">
+  <!-- Load plotly.js into the DOM -->
+  {% comment %} <script src="plotly-2.20.0.min.js" charset="utf-8"></script> {% endcomment %}
+  <script src="{% static 'plotly-2.20.0.min.js' %}" charset="utf-8"></script>
+</head>
+<body>
+    <div class="sidebar">
+      <br>
+      {% comment %} <img class="logo" src="../images/logo.jpg"  alt="Icon"> {% endcomment %}
+      <img class="logo" src="{%static 'images/logo.jpg' %}"  alt="Icon">
+      <br>
+      <a href="/home">Home</a>
+      <a href="/site_details">Site Details</a>
+      <a href="/alert">Alert</a>
+      <a href="/fault">Fault Log</a>
+      <a href="/logout">Log Out</a>
+       <!-- <footer><img src="solarPump.png"> </footer> -->
+        </div>
+            <div class="row" >
+                <div class="nav">
+                  <table class="navbartable">
+                    <tr>
+                      <th></th>
+                      <th></th>                    
+                      <th><h1>Solar Water Pump Remote Monitoring System</h1></th>
+                      <th></th>
+                      <th>Login By :  <br> {{request.user.username}} <br> {{request.user.last_login}} </th>
+                  </tr>
+                </table>
+        </div>
+      </div>
+      <div class="row">
+          <div class="testingLeftHalf">  
+                  <table>
+                    <tr><th></th></tr>
+                    <tr>
+                      <th><label class="label">Pump <br> Start Time</label><br>
+                        <button class="digitalclock">{{data.start_time}}</button><br>
+                      </th>
+                    </tr>
+                    <br>
+                    <tr>
+                      <th><label class="label">Pump <br> Stop Time</label><br>
+                        <button class="digitalclock">{{data.stop_time}}</button><br>
+                      </th>
+                    </tr>
+                    <br>
+                    <tr>
+                      <th><label class="label">Today's <br> Run Time</label><br>
+                        <button class="digitalclock">{{data.run_time_today}}</button><br>
+                      </th>
+                    </tr>
+                    <tr><th> <label class="label"></label>Alerts <br> <br><h3 class="h2">No Alerts</h3></label></th></tr>
+                  </table>                                      
+          </div>
+          <div class="testingRightHalf">
+                  <table>
+                      <tr>
+                        <th><label class="label">Benificery Name:</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                </select</th>
+                        <th><label class="label">RMD ID :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                        </select</th>
+                        <th><label class="label">Capacity :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                        </select</th>
+                        <th><label class="label">Head :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                        </select</th>
+                        <th><label class="label">Site Address :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                        </select</th>
+                      </tr>
+                    </table>
+          <table><tr><th>
+            <div class="product">
+              <div class="namePrice">
+                  <h3>RMS ID: </h3>
+                    <h2>{{data.rms}}</h2>
+                 
+              </div>
+              <div class="namePrice">
+                  <h1>shweta</h1>
+              </div>
+                <hr>
+              <div class="parameter">
+                  <div class="namePrice">
+                             <h3>Pump Status: </h3>
+                             
+                             <span>{{data.pump_status}}</span>
+                         </div>
+                         <div class="namePrice">
+                             <h3>Cumulative LPD:</h3>
+                             <span>{{data.cumulative_lpd}} Lit</span>
+                         </div>
+                         <div class="namePrice">
+                             <h3>Current LPM:</h3>
+                             <span>{{data.current_lpm}} Lit</span>
+                         </div>
+                         <hr>
+                         <div class="namePrice">
+                          <h3>Voltage:</h3>
+                          <span>{{data.voltage}}  volt</span>
+                         </div> 
+                         <div class="namePrice">
+                          <h3>Current:</h3>
+                          <span>{{data.current}}  Amp</span>
+                         </div> 
+                         <div class="namePrice">
+                          <h3>Power: </h3>
+                          <span>{{data.power}} Watt</span>
+                         </div>  
+                         <hr>                     
+                         </div>
+                         <!-- <div class="namePrice">
+                             <h3>Battery: </h3>
+                             <span><img src="../images/battery2.png"></span>
+                         </div> 
+                         <hr>-->
+                         <div class="lastupdated">
+                             <h3>Last Updated: </h3>
+                             <h2>29/07/2023 4:00 PM</h2>
+                        </div>
+                      </div>
+                      </th> 
+                        <th>
+                          <table class="dashboardinfo">
+                            <tr><th><img src="{%static '/dashboard/motor.png' %}"></th>
+                                <th>Pump Status <br><h2>{{data.pump_status}}</h2></th>
+                                <th><div id='myDiv1'><!-- Plotly chart will be drawn inside this DIV --></div>
+                            </tr>
+                              <tr>
+                                <th><img src="{%static '/dashboard/lpd.png' %}"></th>
+                                <th> Commulative LPD<br><h2>{{data.cumulative_lpd}} L</h2></th>
+                                <th><div id='myDiv2'><!-- Plotly chart will be drawn inside this DIV --></div>
+                            <tr>
+                                <th><img src="{%static '/dashboard/lpm.png' %}"></th>
+                                <th>Current LPM <br><h2>{{data.current}} L</h2></th>
+                                <th><div id='myDiv3'><!-- Plotly chart will be drawn inside this DIV --></div>
+                            </tr>
+                              <tr>
+                                <table>
+                                  <tr>
+                                    <th></th>
+                                   
+                                  </th>
+                                  </tr>
+                                </table>
+                              </tr>
+                              <tr> 
+                              </tr>
+                          </table>
+                    </th>
+                  </tr>
+
+                </table>               
+            </div>
+          <script>
+            window.addEventListener("load", () => {
+
+            })
+            var data = [
+              {
+                  domain: { x: [0, 1], y: [0, 1] },
+                  value: {{data.voltage}},
+                  title: { text: "",font: { size: 14,  family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif", bold: true, color: "green" } },
+                  type: "indicator",
+                  mode: "gauge",
+                 // gauge: {
+                  //  axis: { range: [0, 25]  }
+                //}
+              }
+              ];
+            var layout = {
+              width: 350,
+              height: 150,
+              margin: { t: 0, b: 0 },
+              grid: { rows: 1, columns: 1, pattern: 'independent' },
+             annotations: [
+                {
+                  x: 0.5, // Adjust x position to move the data horizontally
+                  y: 0.3, // Adjust y position to move the data vertically
+                  text: "Voltage (V)",
+                  showarrow: false,
+                  font: { size: 22, color: "green", family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif", bold: true }
+                }
+              ]
+            };
+            Plotly.newPlot('myDiv1', data, layout);
+            var data = [
+              {
+                  domain: { x: [0, 1], y: [0, 1.5] },
+                  value: {{data.current}},
+                  title: { text: "",font: { size: 14,  family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif", bold: true, color: "green" } },
+                  type: "indicator",
+                  mode: "gauge",
+                 // gauge: {
+                   // axis: { range: [0, 25]  }
+                //}
+              }
+              ];
+            var layout = {
+              width: 350,
+              height: 150,
+              margin: { t: 0, b: 0 },
+              grid: { rows: 1, columns: 1, pattern: 'independent' },
+             annotations: [
+                {
+                  x: 0.5, // Adjust x position to move the data horizontally
+                  y: 0.3, // Adjust y position to move the data vertically
+                  text: "Current (A)",
+                  showarrow: false,
+                  font: { size: 14, color: "green", family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif", bold: true }
+                }
+              ]
+            };
+            Plotly.newPlot('myDiv2', data, layout);
+            var data = [
+              {
+                  domain: { x: [0, 1], y: [0, 1.5] },
+                  value: {{data.power}},
+                  title: { text: "",font: { size: 14,  family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif", bold: true, color: "green" } },
+                  type: "indicator",
+                  mode: "gauge",
+                //  gauge: {
+                 //   axis: { range: [0, 25]  }
+                //}
+              }
+              ];
+            var layout = {
+              width: 350,
+              height: 150,
+              margin: { t: 0, b: 0 },
+              grid: { rows: 1, columns: 1, pattern: 'independent' },
+             annotations: [
+                {
+                  x: 0.5, // Adjust x position to move the data horizontally
+                  y: 0.3, // Adjust y position to move the data vertically
+                  text: "Power (W)",
+                  showarrow: false,
+                  font: { size: 14, color: "green", family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif", bold: true }
+                }
+              ]
+            };
+            Plotly.newPlot('myDiv3', data, layout);
+          </script>
+          </table>
+     </form>
+    </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="{% static 'loginpage/style.css' %}">
+</head>
+<body>
+    <div class="header"> 
+
+        <h1>Welcome</h1>
+        <div class="campanyName">
+             <h2>Sileaf Technologies Pvt Ltd</h2>
+        </div>
+        <h1>Solar Water Pump <br> Remote Monitoring System</h1>
+        <h1></h1>
+     
+        <div class="logo">
+        
+            <img src="{% static 'images/logo.jpg' %}">
+        </div>
+        <br>
+        <Table style=" align-self: center; margin-left: auto; margin-right: auto;">
+            <tr>
+                <th><label for="userName" class="label" id="User" >User Name</label></th>
+                 <th><input class="input" type="text" id="username" placeholder="User Name"/></th>
+            </tr>
+            <tr><th></th></tr>
+            <tr><th></th></tr>
+            <tr>
+                <th><label for="password" class="label" id="pass">Password</label></th>
+                <th><input class="input" type="password" id="password" placeholder="Password"/></th>
+            </tr>
+            <tr><th></th></tr>
+            <tr><th></th></tr>
+            <tr>
+                <th></th>
+                <th><button class="Login"  id="login-btn">Login</button></th>
+            </tr>
+        </Table>
+     </div>
+
+     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+     
+     <script>
+        $(document).ready(function () {
+            // Function to handle the login button click event
+            $('#login-btn').click(function () {
+                var username = $('#username').val();
+                var password = $('#password').val();
+
+                // AJAX request to the LoginAPI endpoint
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/login/', // Replace with the actual URL of your LoginAPI endpoint
+                    data: JSON.stringify({ username: username, password: password }),
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function (data) {
+                        // If the login is successful, handle the response here
+                        console.log('Login successful');
+                        console.log(data); // The response data from the server
+                        window.location = "/home";
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        // If there's an error during login, handle it here
+                        console.log('Login failed');
+                        console.log(xhr.responseText); // The error response from the server
+                    }
+                });
+            });
+        });
+     </script>
+
+</body>
+</html>

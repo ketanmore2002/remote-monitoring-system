@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tableData</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Load plotly.js into the DOM -->
+  <script src="plotly-2.20.0.min.js" charset="utf-8"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <br>
+      <img class="logo" src="./images/logo.jpg"  alt="Icon">
+      <br>
+      <a href="#">Home</a>
+      
+      <a href="#">Site Details</a>
+      <a href="#">Alert</a>
+      <a href="#">Fault Log</a>
+      <a href="#">Log Out</a>
+       <!-- <footer><img src="solarPump.png"> </footer> -->
+        </div>
+            <div class="row" >
+                <div class="nav">
+                  <table class="navbartable">
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th><h1>Solar Water Pump Remote Monitoring System</h1></th>
+                      <th></th>
+                      <th>Login By :  <br> Shweta <br> 04/08/2023 </th>
+                  </tr>
+                </table>
+             
+                </div>
+            </div>
+            <div class="row">
+                <div class="testingLeftHalf">  
+                  <table>
+                    <tr>
+                      <th><label class="label">State :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    <tr>
+                      <th><label class="label">District :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    <tr>
+                      <th><label class="label">RMD ID :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    <tr>
+                      <th><label class="label">Beneficiary Name :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    <tr>
+                      <th><label class="label">Site Address :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                 
+                  <!-- <tr><th>Logged By:- Shweta</th></tr>    
+                  <tr><th>21/07/2023</br>17:10 PM</th></tr> -->
+                  </table>                                      
+                  </div>
+                  <div class="historicRightHalf">
+                    <table>
+                      <tr>
+                          <th><label class="download">Download</label></th>
+                          <th>
+                              <div class="btn-group">
+                              <button >Graph</button>
+                              <button class="table">Table</button>
+                              </div>
+                          </th>
+                          <th>
+                              <div class="btn-group">
+                              <button >Year</button>
+                              <button >Month</button>
+                              <button>Week</button>
+                               <button class="day">Day</button>
+                              </div>
+                          </th>
+                        </tr>
+                        <br>
+                        <br>
+                        <tr></tr>
+                  </table> 
+                  <table>
+                    <table class="tableData">
+                        <tr>
+                          <th>Date</th>
+                          <th>Start Time</th>
+                          <th>End Time</th>
+                          <th>Run Time</th>
+                          <th>LPD</th>
+                        </tr>
+                        <tr>
+                          <td>20 July 2020</td>
+                          <td>10:00 AM</td>
+                          <td>05:00 PM</td>
+                          <td>5 hr</td>
+                          <td>5000 L</td>
+                        </tr>
+                        <tr>
+                            <td>20 July 2020</td>
+                            <td>10:00 AM</td>
+                            <td>05:00 PM</td>
+                            <td>5 hr</td>
+                            <td>5000 L</td>
+                          </tr>
+                          <tr>
+                            <td>20 July 2020</td>
+                            <td>10:00 AM</td>
+                            <td>05:00 PM</td>
+                            <td>5 hr</td>
+                            <td>5000 L</td>
+                          </tr>
+                          <tr>
+                            <td>20 July 2020</td>
+                            <td>10:00 AM</td>
+                            <td>05:00 PM</td>
+                            <td>5 hr</td>
+                            <td>5000 L</td>
+                          </tr>
+                          <tr>
+                            <td>20 July 2020</td>
+                            <td>10:00 AM</td>
+                            <td>05:00 PM</td>
+                            <td>5 hr</td>
+                            <td>5000 L</td>
+                          </tr>    
+                  </table>
+                </div>
+            </div>          
+          <script src="home.js"></script>
+          </table>
+     </form>
+    </section>
+    </div>
+</body>
+</html>

@@ -3,4 +3,5 @@ from .models import *
 # Register your models here.
 
 admin.site.register(water_tank)
-admin.site.register(water_tank_times)
+admin.site.register(water_tank_records)
+admin.site.register(water_tank_records_temp)

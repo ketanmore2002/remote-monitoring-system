@@ -6,18 +6,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SiteDetails</title>
+  {% comment %} <link rel="stylesheet" href="styles.css"> {% endcomment %}
   <link rel="stylesheet" href="{% static 'styles.css' %}">
   <!-- Load plotly.js into the DOM -->
-  <script src="plotly-2.20.0.min.js" charset="utf-8"></script>
+  {% comment %} <script src="plotly-2.20.0.min.js" charset="utf-8"></script> {% endcomment %}
+  <script src="{% static 'plotly-2.20.0.min.js' %}" charset="utf-8"></script>
 </head>
 <body>
     <div class="sidebar">
-        <img class="logo" src="{% static 'images/logo.jpg' %}"  alt="Icon">
-        <a href="/home">Home</a>
-        <a href="/site_details">Site Details</a>
-        <a href="/alert">Alert</a>
-        <a href="/fault">Fault Log</a>
-        <a href="/logout">Log Out</a>
+      <br>
+        {% comment %} <img class="logo" src="./images/logo.jpg"  alt="Icon"> {% endcomment %}
+      <img class="logo" src="{% static 'images/logo.jpg' %}" alt="Icon">
+      <br>
+      <a href="/">Home</a>
+      <div class="siteDetails">
+      <a href="#">Site Details</a>
+      </div>
+      <a href="#">Pump Registration</a>
+      <a href="#">Log Out</a>
     </div>
             <div class="row" >
                 <div class="nav">
@@ -30,131 +36,131 @@
                       <th></th>
                       <th><h1>Solar Water Pump Remote Monitoring System</h1></th>
                       <th></th>
-                      <th>Login By :  <br> {{user.username}} <br> {{user.last_login}} </th>
+                      <th>Login By :  <br>Admin <br> 04/08/2023 </th>
                   </tr>
                 </table>
-                 
                 </div>
             </div>
             <div class="row">
                 <div class="testingLeftHalf">  
-                  <table>
-                    <tr>
-                      <th><label class="label">State :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
-                      </select></th>
-                    </tr>
-                    <tr>
-                      <th><label class="label">District :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
-                      </select></th>
-                    </tr>
-                    <tr>
-                      <th><label class="label">RMD ID :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
-                      </select></th>
-                    </tr>
-                    <tr>
-                      <th><label class="label">Beneficiary Name :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
-                      </select></th>
-                    </tr>
-                    <tr>
-                      <th><label class="label">Site Address :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
-                      </select></th>
-                    </tr>
-                  </table>                                      
+                                                    
                   </div>
                   <div class="testingRightHalf">
                    <br>
                    <br>
-                   <br>
-                   <label class="geolabel">Geo Tagging Coordinates :  Latitude-  <input class="dashboardInput">  Longitude- <input class="dashboardInput"> </label>
-                   <br>
-                   <br>
-                   <br>
-                   {% for i in data %}
-                  <table class="tablesiteDetails">
+                   <table>
                     <tr>
-                      <th  colspan="2">Contractor Details</th>
-                      <th  colspan="2">Solar Panel</th>
-                      <th  colspan="2">Controller</th>
-                      <th  colspan="2">Water Pump</th>
+                      <th><label class="label">Pump Registration click here</label></th>
+                      <th><button class="registration">Registration</button></th>  
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                     
+                                     
+                    </tr>
+                    </table>
+                    <table>
+                    <tr>
+                    
+                      <th> <label class="label">RMS ID</label></th>
+                      <th><select class="dashboardInput" name="dashboardInput" id="dashboardInput"></select></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </table>
+                  <table>
+                    <tr>
+                      <th> <label class="label">Geo Tagging Coordinates</label></th>
+                      <th>Latitude</th>
+                      <th><input class="dashboardInput" id="lat"></th> 
+                      <th>Logitude</th>
+                      <th><input class="dashboardInput" id="lng"> </label></th> 
+                    </table>
+                    <table>                 
+                    </tr>
+                    <th>Contractor Name </th><th><input class="dashboardInput" id="lat"></th>
+                    <th>Site Address </th><th><input class="dashboardInput" id="lat"></th>
+                    <th>Date of Installation </th><th><input class="dashboardInput" id="lat"></th>
+                   </table>
+                  <table class="siteDetailsTable">
+                    <tr>
+                        <th></th>
+                        <th></th>
+                      
                     </tr>
                     <tr>
-                      <td>Name:</td>
-                      <td>{{i.contractor_name}}</td>
-                      <td>Make:</td>
-                      <td>blank</td>
-                      <td>Make:</td>
-                      <td>blank</td>
-                      <td>Make:</td>
-                      <td>blank</td>
-                    </tr>
-                    <tr>
-                      <td>Number:</td>
-                      <td>{{i.contractor_number}}</td>
-                      <td>Wattage:</td>
-                      <td>{{i.wattage}}</td>
-                      <td>Capacity:</td>
-                      <td>{{i.capacity}}</td>
-                      <td>Model No.:</td>
-                      <td>1234</td>
-                    </tr>
-                    <tr>
-                      <td>Date of <br>Installation :</td>
-                      <td>{{i.date_of_installation}}</td>
-                      <td>No. of <br> Panels:</td>
-                      <td>{{i.no_of_panels}}</td>
-                      <td>Serial No.:</td>
-                      <td>{{i.serial_numbers}}</td>
                       <td>Capacity</td>
-                      <td>{{i.capacity}}</td>
+                      <td>1 Hp</td>
+
+                      
                     </tr>
                     <tr>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>Serial No.:</td>
-                      <td>{{i.serial_numbers}}</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>Dynamic Head</td>
-                      <td>blank</td>
+                      <td>Make</td>
+                      <td>Sileaf</td>
+                      
                     </tr>
                     <tr>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
+                      <td>Motor/Pump Model No.</td>
+                      <td>XYZ123</td>
+                      
+                    </tr>
+                    <tr>
+                      <td>Controller Model No.</td>
+                      <td>XYZ123</td>
+                     
+                    </tr>
+                    <tr>
+                      <td>Motor/Pump Serial No.</td>
+                      <td>XYZ123</td>
+                     
+                    </tr>
+                    <tr>
+                      <td>Controller Serial No.</td>
+                      <td>XYZ123</td>
+                     
+                    </tr>
+                    <tr>
+                      <td>RMS ID</td>
+                      <td>1234</td>
+                     
+                    </tr>
+                    <tr>
+                      <td>Modem ID</td>
+                      <td>XYZ123</td>
+                     
+                    </tr>
+                    <tr>
+                      <td>SIM ID</td>
+                      <td>XYZ123</td>
+                     
+                    </tr>
+                    <tr>
                       <td>ICCID</td>
-                      <td>blank</td>
+                      <td>XYZ123</td>
+                     
                     </tr>
-                    <tr>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>IMEI</td>
-                      <td>{{i.imei}}</td>
-                    </tr>
-                    <tr>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>--</td>
-                      <td>Rating</td>
-                      <td>99</td>
-                    </tr>
-                  </table> 
-                  {% endfor %}
-                  <br>
-                  <br>
-                  <br>
+
                   </div>             
-                </div>       
-          <script src="{% static 'home.js' %}"></script>
+                </div>  
     </div>
 </body>
 </html>

@@ -18,7 +18,11 @@ from rest_framework import permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
+from django.core.cache import cache
+
+import json
 
 
 
@@ -158,7 +162,10 @@ def login_view(request):
 @login_required(login_url='/login')
 def home(request):
     data =  water_tank.objects.all()
-    return render (request,"home.html",{"data":data})
+    if str(request.user.groups.all()[0]) == "superadmin" :
+        return render (request,"home-SuperAdmin.html",{"data":data})
+    else :
+        return render (request,"home-Admin.html",{"data":data})
 
 @login_required(login_url='/login')
 def site_details(request):
@@ -179,13 +186,92 @@ def index(request):
     return redirect ("/home")
 
 
+from itertools import accumulate
+from datetime import datetime , date
 @login_required(login_url='/login')
 def dashboard(request,rms):
     data =  water_tank.objects.filter(rms=rms).first()
-    # time_data =  water_tank_times.objects.filter(rms=rms).first()
-    return render (request,"dashboard/dashboard.html",{"data":data })
+    data2 =  water_tank_records.objects.filter(rms=rms).reverse().first()
+    start_time = datetime.strptime((data2.start_time).strftime("%H:%M"), '%H:%M')
+    stop_time = datetime.strptime((data2.stop_time).strftime("%H:%M"), '%H:%M')
+    data3 =  water_tank_records_temp.objects.filter(rms=rms).reverse()
+    run_time = start_time - stop_time
+    return render (request,"dashboard/dashboard.html",{"data":data ,"run_time":run_time , "data2":data2 , "data3":data3})
+
+
+
+def history_table(request,rms):
+    data =  water_tank_records.objects.filter(rms=rms).reverse()#.first()
+    data2 =  water_tank.objects.all()#.values_list("rms",flat=True)
+    return render(request,'tableHistoricData.html',{"data":data,"data2":data2})
+
+
+def history_table_search(request,rms,start_date,stop_date):
+    data =  water_tank_records.objects.filter( rms=rms, date__range=(start_date, stop_date) )
+    data2 =  water_tank.objects.all()#.values_list("rms",flat=True)
+    return render(request,'tableHistoricData.html',{"data":data,"data2":data2})
+
+def task_data(request):
+    if cache.get('node'):
+        return HttpResponse("incomplete")
+    else:
+        return HttpResponse("complete")
 
 
 @login_required(login_url='/login')
 def historicData(request):
     return render (request,"historicData.html")
+
+
+@login_required(login_url='/login')
+def historicData(request):
+    return render (request,"historicData.html")
+
+@csrf_exempt
+def create_node (request) :
+    if request.method == 'POST':
+        dict_data = json.loads(request.body.decode('UTF-8'))
+        topic = dict_data.get("topic")
+        # print(dict_data)
+        del dict_data['topic']
+
+        if water_tank.objects.filter(rms = dict_data["rms"]).exists() :
+
+            water_tank.objects.filter(rms = dict_data["rms"]).update(pump_status = dict_data["pump_status"] , signal_strength = dict_data["signal_strength"])
+
+            water_tank_records.objects.create(rms = dict_data["rms"] , cumulative_lpd = dict_data["cumulative_lpd"] , current_lpm = dict_data["current_lpm"] , 
+                                              voltage = dict_data["voltage"] , current = dict_data["current"] , power = dict_data["power"] , 
+                                              wattage = dict_data["wattage"] , present_lpm = dict_data["present_lpm"] , start_time = dict_data["start_time"] , 
+                                              stop_time = dict_data["stop_time"] , signal_strength = dict_data["signal_strength"] , run_time_today = dict_data["run_time_today"],
+                                               time = dict_data["time"] )
+            
+            if water_tank_records_temp.objects.filter(rms = dict_data["rms"]).exists() :
+
+                obj = water_tank_records_temp.objects.filter(rms = dict_data["rms"]).last()
+            
+                water_tank_records_temp.objects.create(rms = dict_data["rms"] , cumulative_lpd = obj.cumulative_lpd + float(dict_data["cumulative_lpd"]) , 
+                                                       current_lpm = obj.current_lpm + float(dict_data["current_lpm"]) , voltage = obj.voltage + float(dict_data["voltage"]) , 
+                                                       current = obj.current_lpm + float(dict_data["current"]) , power = obj.power + float(dict_data["power"]) , wattage = obj.wattage + float(dict_data["wattage"]) , 
+                                                       present_lpm = obj.present_lpm + float(dict_data["present_lpm"]) , start_time = dict_data["start_time"] , 
+                                                       stop_time = dict_data["stop_time"], signal_strength = dict_data["signal_strength"] ,  run_time_today = dict_data["run_time_today"],
+                                                        time = dict_data["time"]  )
+                cache.set("node", "changed",timeout=2)
+                return HttpResponse ("done" , status=200)
+        
+            else :
+                water_tank_records_temp.objects.create(rms = dict_data["rms"] , cumulative_lpd = float(dict_data["cumulative_lpd"]) , 
+                                                       current_lpm = float(dict_data["current_lpm"]) , voltage = float(dict_data["voltage"]) , 
+                                                       current =  float(dict_data["current"]) , power = float(dict_data["power"]) , wattage = float(dict_data["wattage"]) , 
+                                                       present_lpm = float(dict_data["present_lpm"]) , start_time = dict_data["start_time"] , 
+                                                       stop_time = dict_data["stop_time"],signal_strength = dict_data["signal_strength"] ,  run_time_today = dict_data["run_time_today"],
+                                                        time = dict_data["time"]  )
+                cache.set("node", "changed",timeout=2)
+                return HttpResponse ("done" , status=200)
+        else :
+            return HttpResponse ("error2" ,status=404)
+    return HttpResponse ("error3" ,status=404)
+    
+
+
+
+

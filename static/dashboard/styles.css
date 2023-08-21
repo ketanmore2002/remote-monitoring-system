@@ -66,12 +66,12 @@ body{
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
  .sidebar a.active {
-  background-color: #0407aa;
+  background-color: #31b121;
   color: white;
 }
 
 .sidebar a:hover:not(.active) {
-  background-color: #1d04aa;
+  background-color: #31b121;
   color: white;
 }
 
@@ -141,7 +141,7 @@ h1 {
   size:10cm ;
   font-weight:bolder; 
   color: rgb(255, 255, 255);
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  
   font-size: medium;
   font-weight: bold;
 }
@@ -149,6 +149,7 @@ h1 {
   padding: 0px;
   color: #ffffff;
   text-align: center;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 .testingRightHalf {
   float:right;
@@ -327,20 +328,19 @@ font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-style: italic;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+.dashboardinfo{
+  margin-left: 120px;
+  padding: 0%;
+  
+}
 .dashboardinfo th{
-  margin-top: 0;
   text-align: center;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   size:10cm ;
   font-weight:bolder; 
   color: rgb(0, 0, 0);
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: large;
   font-weight: bold;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
   padding: 0%;
 }
 .dashboardinfo h2 {
@@ -352,4 +352,39 @@ font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     margin-bottom: 0px;
     margin-left: 0px;
     margin-right: 0px;
+}
+.todayDataTable {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  border-collapse: collapse;
+  width: 95%;
+  align-items: start;
+  border: 1px solid #1e0db6;
+  text-align: center;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: black;
+  margin-left:2%;
+  margin-right:2%;
+  padding: 0%;
+}
+.todayDataTable td, .todayDataTable th {
+  border: 1px solid #000000;
+  padding: 10px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: black;  
+}
+.todayDataTable tr:nth-child(even){background-color: #b1fd9d;}
+.todayDataTable tr:nth-child(odd){background-color: rgb(255, 255, 255);}
+.todayDataTable tr:hover {background-color: #56b32e;}
+.todayDataTable th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+  color: rgb(255, 255, 255);
+  border-color: rgb(0, 0, 0);
+  align-items:flex-start;
+  align-content: center;
+  align-self:auto;
+  border: 1px solid #000000;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }

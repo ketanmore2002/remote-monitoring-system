@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'node',
     'rest_framework',
     'knox',
+
+    'django_celery_results',
+    'django_celery_beat'
     
 ]
 
@@ -196,3 +199,36 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(days=1),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        # 'TIMEOUT': 3600,  # Cache expiration time in seconds (1 hour)
+    }
+}
+
+
+# from celery import Celery
+
+# CELERY_APP = 'water_tank_system.celery'
+
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'water_tank_system.settings')
+
+# app = Celery('water_tank_system')
+
+# app.config_from_object('django.conf:settings', namespace='CELERY')
+
+# app.autodiscover_tasks()
+
+# @app.task(bind=True)
+# def debug_task(self):
+#     print('Request: {0!r}'.format(self.request))
+
+
+timezone = 'Asia/Kolkata'
+accept_content = ['application/json']
+result_serializer = 'json'
+task_serializer = 'json'
+result_backend = 'django-db'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

@@ -5,7 +5,7 @@ window.addEventListener("load", () => {
     {
         domain: { x: [0, 1], y: [0, 1.5] },
         value: 4000,
-        title: { text: "Number of Solar Pupms",font: { size: 18,  family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif", bold: true, color: "green" } },
+        title: { text: "Number of Solar Pumps",font: { size: 18,  family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif", bold: true, color: "green" } },
         type: "indicator",
         mode: "gauge",
         gauge: {

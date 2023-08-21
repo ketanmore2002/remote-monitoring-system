@@ -15,7 +15,7 @@ class WaterTakeSerializer(serializers.ModelSerializer):
 class WaterTankTimeSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = water_tank_times
+        model = water_tank_records
         # fields = ('id', 'machine', 'location', 'sub_location', 'humidity','tempreture','tempreture_low','tempreture_high','battery','user_name','delete_status','uuid','_uuid',"humidity_low","humidity_high","CO2_high","CO2_low","CO2",'updated_at','email')
         fields = '__all__'
 

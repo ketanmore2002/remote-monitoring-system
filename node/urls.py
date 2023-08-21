@@ -32,6 +32,10 @@ urlpatterns = [
         
         path('dashboard/<str:rms>/', views.dashboard, name='dashboard'),
         path('historicData', views.historicData, name='historicData'),
+        path('create_node/', views.create_node, name='create_node'),
 
+        path("task_data/",views.task_data,name='task_data'),
+        path("history_table/<str:rms>/",views.history_table,name='history_table'),
+        path("history_table/search/<str:rms>/<str:start_date>/<str:stop_date>/",views.history_table_search,name='history_table'),
 
   ]

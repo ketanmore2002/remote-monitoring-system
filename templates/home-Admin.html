@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin</title>
+  {% comment %} <link rel="stylesheet" href="styles.css"> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'styles.css' %}">
+  <!-- Load plotly.js into the DOM -->
+  <script src="{% static 'plotly-2.20.0.min.js' %}" charset="utf-8"></script>
+</head>
+<body>
+    <div class="sidebar">
+      <br>
+      <img class="logo" src="{% static 'images/logo.jpg' %}" alt="Icon">
+      <br>
+      <br>
+      <div class="home">
+      <a href="#">Home</a>
+      </div>
+      <a href="#">Site Details</a>
+      <a href="#">Pump Registration</a>
+      <a href="#">Log Out</a>
+       <!-- <footer><img src="solarPump.png"> </footer> -->
+        </div>
+            <div class="row" >
+                <div class="nav">
+                  <table class="navbartable">
+                    <tr>
+                      <th></th>
+                      <th></th>                    
+                      <th><h1>Solar Water Pump Remote Monitoring System</h1></th>
+                      <th></th>
+                      <th>Login By :  <br>Admin <br>10/08/2023 </th>
+                  </tr>
+                </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="testingLeftHalf">  
+                  <br>
+                  <br>
+                  <br>
+                   <br>
+                  <table>
+                    <tr>
+                      <th><label class="label">State :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    <tr>
+                      <th><label class="label">District :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    
+                    <tr>
+                      <th><label class="label">Beneficiary Name :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      </select></th>
+                    </tr>
+                    <tr>
+                      <th> <Button class="search-btn">Search</Button>    </th>
+                    </tr>
+                   
+                  <!-- <tr><th>Logged By:- Shweta</th></tr>    
+                  <tr><th>21/07/2023</br>17:10 PM</th></tr> -->
+                  </table>    
+                                               
+                  </div>
+                  <div class="testingRightHalf">
+                    <table>
+                      <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th><div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+                      </th>
+                      </tr>
+                    </table>
+                    <table>
+                      <tr>
+                        <th></th>
+                        <th></th>
+                        <th><button class="valuebutton" id="myButton1">Total No. of Pumps: <span id="counter1">0</span><br/></button></th>
+                        <th><button class="valuebutton" id="myButton2">Pumps Running: <span id="counter2">0</span><br/></button></th>
+                        <th><button class="valuebutton" id="myButton3">Pumps Not Running: <span id="counter3">0</span><br/></button></th>
+                      </tr> 
+                    </table>
+                    <table class="pumplist">
+                        <div class="pumplist"></div>
+                        <tr class="titleRow">
+                            <td>RMS ID</td>
+                            <td>Beneficiary/SI</td>
+                            <td>Location</td>
+                            <td>Capacity &</br>Dynamic Head</td>
+                            <td colspan="3">Data Status</td>
+                        </tr>
+                    </div>
+                    </table>
+                </div>
+            </div>          
+            <script src="{% static 'home.js' %}"></script>
+          </table>
+     </form>
+    </section>
+    </div>
+</body>
+</html>

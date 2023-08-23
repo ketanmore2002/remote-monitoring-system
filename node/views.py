@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response 
 from django.http import HttpResponse
 from rest_framework import status
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User ,Group
 from rest_framework.permissions import AllowAny
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
@@ -173,6 +173,64 @@ def site_details(request):
     return render (request,"siteDetails.html",{"data" : data})
 
 @login_required(login_url='/login')
+def site_details_search(request,rms):
+    data =  water_tank.objects.filter(rms=rms).first()
+    data2 =  water_tank.objects.all()
+    return render (request,"siteDetails_search.html",{"data" : data, "data2" : data2})
+
+from django.shortcuts import render, redirect
+from .models import water_tank
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='/login')
+def register_pump(request):
+    if request.method == 'POST':
+        # Get form data from request.POST
+        contractor_name = request.POST.get('ContractorName')
+        beneficiary_name = request.POST.get('BeneficiaryName')
+        site_address = request.POST.get('SiteAddress')
+        district = request.POST.get('District')
+        state = request.POST.get('State')
+        date_of_installation = request.POST.get('DateofInstallation')
+        capacity = request.POST.get('Capacity')
+        make = request.POST.get('Make')
+        pump_model_no = request.POST.get('PumpModelNo')
+        controller_model_no = request.POST.get('ControllerModelNo')
+        pump_serial_no = request.POST.get('PumpSerialNo')
+        controller_serial_no = request.POST.get('ControllerSerialNo')
+        rms_id = request.POST.get('RMSID')
+        modem_id = request.POST.get('ModemID')
+        sim_id = request.POST.get('SIMID')
+        iccid = request.POST.get('ICCID')
+        
+        # Create and save a new water_tank instance
+        water_tank_obj = water_tank(
+            contractor_name=contractor_name,
+            benificery_name=beneficiary_name,
+            site_address=site_address,
+            district=district,
+            state=state,
+            installation_date=date_of_installation,
+            capacity=capacity,
+            make=make,
+            pump_model_number=pump_model_no,
+            controller_model_number=controller_model_no,
+            pump_serial_numbers=pump_serial_no,
+            controller_serial_numbers=controller_serial_no,
+            rms=rms_id,
+            modem_id=modem_id,
+            sim_id=sim_id,
+            iccid=iccid
+        )
+        water_tank_obj.save()
+        
+        # Redirect to a success page or do any other necessary actions
+        return redirect('/')  # Change 'success_page' to your desired URL
+
+    return render(request, "registration.html")
+
+
+@login_required(login_url='/login')
 def alerts(request):
     return render (request,"alerts.html")
 
@@ -186,17 +244,19 @@ def index(request):
     return redirect ("/home")
 
 
-from itertools import accumulate
 from datetime import datetime , date
 @login_required(login_url='/login')
 def dashboard(request,rms):
     data =  water_tank.objects.filter(rms=rms).first()
     data2 =  water_tank_records.objects.filter(rms=rms).reverse().first()
-    start_time = datetime.strptime((data2.start_time).strftime("%H:%M"), '%H:%M')
-    stop_time = datetime.strptime((data2.stop_time).strftime("%H:%M"), '%H:%M')
     data3 =  water_tank_records_temp.objects.filter(rms=rms).reverse()
-    run_time = start_time - stop_time
-    return render (request,"dashboard/dashboard.html",{"data":data ,"run_time":run_time , "data2":data2 , "data3":data3})
+    try :
+        start_time = datetime.strptime((data2.start_time).strftime("%H:%M"), '%H:%M')
+        stop_time = datetime.strptime((data2.stop_time).strftime("%H:%M"), '%H:%M')
+        run_time = start_time - stop_time
+        return render (request,"dashboard/dashboard.html",{"data":data ,"run_time":run_time , "data2":data2 , "data3":data3})
+    except:
+        return render (request,"dashboard/dashboard.html",{"data":data , "data2":data2 , "data3":data3})
 
 
 
@@ -211,6 +271,15 @@ def history_table_search(request,rms,start_date,stop_date):
     data2 =  water_tank.objects.all()#.values_list("rms",flat=True)
     return render(request,'tableHistoricData.html',{"data":data,"data2":data2})
 
+from django.contrib.auth.models import User
+def costumer_management(request):
+
+    if str(request.user.groups.all()[0]) == "superadmin" :
+        data = User.objects.all()
+        return render(request,'costumerManag.html',{"data":data})
+    else:
+        return redirect("/")
+
 def task_data(request):
     if cache.get('node'):
         return HttpResponse("incomplete")
@@ -224,8 +293,49 @@ def historicData(request):
 
 
 @login_required(login_url='/login')
-def historicData(request):
-    return render (request,"historicData.html")
+def user_data_create(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        password = request.POST.get('password')
+        user_role = request.POST.get('user_role')
+        User.objects.create_user(username=username,first_name=first_name,last_name=last_name,password=password)
+        user = User.objects.get(username=username)  # Replace 'username_here' with the actual username
+        group, created = Group.objects.get_or_create(name=user_role)
+        user.groups.set([group])
+        return redirect("/costumer_management")
+    
+    return render (request,"user.html")
+
+
+@login_required(login_url='/login')
+def user_data_update(request,id):
+    user = User.objects.get(id=id)  # Replace 'username_here' with the actual username
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        password = request.POST.get('password')
+        user_role = request.POST.get('user_role')
+        
+        user.username = username
+        user.first_name = first_name
+        user.last_name = last_name
+        user.set_password(password)
+        user.save()
+
+        group, created = Group.objects.get_or_create(name=user_role)
+        user.groups.clear() 
+        user.groups.add(group) 
+        return redirect("/costumer_management")
+    
+    return render (request,"user_update.html",{"data":user})
+
+@login_required(login_url='/login')
+def user_data_delete(request,id):
+    User.objects.get(id=id).delete()  # Replace 'username_here' with the actual username
+    return redirect("/costumer_management")
 
 @csrf_exempt
 def create_node (request) :

@@ -17,10 +17,10 @@
       <br>
       <img class="logo" src="{% static 'images/logo.jpg' %}" alt="Icon">
       <br>
-      <a href="#">Home</a>
-      <a href="#">Site Details</a>
-      <a href="#">Pump Registration</a>
-      <a href="#">Log Out</a>
+      <a href="/">Home</a>
+      <a href="/site_details">Site Details</a>
+      <a href="/register_pump">Pump Registration</a>
+      <a href="/logout">Log Out</a>
        <!-- <footer><img src="solarPump.png"> </footer> -->
         </div>
             <div class="row" >
@@ -48,10 +48,11 @@
                     <table>
                       <h2 class="historicTitle">Historic Data</h2>
                         <tr>
-                          <th></th> 
+                          <th></th>  
                           <th></th>
                           <th>RMS ID</th>
                           <th><select class="RMSIDInput" placeholder="RMS ID" id="rms-selector">
+                            <option aria-placeholder="" disabled selected>Select Option</option>
                             {% for i in data2 %}
                             <option aria-placeholder="RMSID" id = "{{i.rms}}">{{i.rms}}</option>
                             {% endfor %}

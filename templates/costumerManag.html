@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,25 +6,25 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Costumer Management</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="{% static 'styles.css' %}">
   <!-- Load plotly.js into the DOM -->
-  <script src="plotly-2.20.0.min.js" charset="utf-8"></script>
+  <script src="{% static 'plotly-2.20.0.min.js' %}" charset="utf-8"></script>
 </head>
 <body>
     <div class="sidebar">
       <br>
-      <img class="logo" src="./images/logo.jpg" alt="Icon">
+      <img class="logo" src="{% static 'images/logo.jpg' %}" alt="Icon">
       <br>
       <br>
      
-      <a href="#">Home</a>
+      <a href="/">Home</a>
       
-      <a href="#">Site Details</a>
+      <a href="/site_details">Site Details</a>
      
       <div class="costumerManag">
       <a href="#">Costumer<br> Management</a>
       </div>
-      <a href="#">Log Out</a>
+      <a href="/logout">Log Out</a>
        <!-- <footer><img src="solarPump.png"> </footer> -->
         </div>
             <div class="row" >
@@ -34,7 +35,7 @@
                       <th></th>                    
                       <th><h1>Solar Water Pump Remote Monitoring System</h1></th>
                       <th></th>
-                      <th>Login By :  <br> SuperAdmin <br> 11/08/2023 </th>
+                      <th>Login By :  <br> {{request.user.username}} <br> {{request.user.last_login}} </th>
                   </tr>
                 </table>
                 </div>
@@ -46,7 +47,7 @@
                   <div class="historicRightHalf">
                     <br>
                     <br>
-                    <button class="addConstumerBtn">Add Costumer</button>
+                    <a href="/user_data_create"><button class="addConstumerBtn">Add Costumer</button></a>
                     <br>
                     <br>
                     <table class="costumerTable">
@@ -54,47 +55,30 @@
                         <th>Id</th>
                         <th>Name</th>
                         <th>User Name</th>
-                        <th>Password</th>
                         <th>Role</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
+                    {% for i in data %}
                     <tr>
-                        <td>01</td>
-                        <td>Gundu</td>
-                        <td>SuperAdmin</td>
-                        <td>xxxxx</td>
-                        <td>Administartor</td>
+                        <td>{{i.id}}</td>
+                        <td>{{i.first_name}} {{i.last_name}}</td>
+                        <td>{{i.username}}</td>
+                        <td>{{ i.groups.first.name }}</td>
+
+                        {% if i.groups.first.name == "superadmin" %}
                         <td>NA</td>
+                        {% else  %}
+                        <th><a href="/user_data_update/{{i.id}}">Edit</a></th>
+                        {% endif %}
+
+                        {% if i.groups.first.name == "superadmin" %}
                         <td>NA</td>
+                        {% else  %}
+                        <th><a href="/user_data_delete/{{i.id}}">Delete</a></th>
+                        {% endif %}
                     </tr>
-                    <tr>
-                        <td>02</td>
-                        <td>Rutuja</td>
-                        <td>Admin</td>
-                        <td>xxxxx</td>
-                        <td>Admin</td>
-                        <td><button>Edit</button></td>
-                        <td><button>Delete</button></td>
-                    </tr>
-                    <tr>
-                        <td>03</td>
-                        <td>shweta kakde</td>
-                        <td>shweta</td>
-                        <td>xxxxx</td>
-                        <td>Observer</td>
-                        <td><button>Edit</button></td>
-                        <td><button>Delete</button></td>
-                    </tr>
-                    <tr>
-                        <td>04</td>
-                        <td>XYZ</td>
-                        <td>abc</td>
-                        <td>xxxxx</td>
-                        <td>costumer</td>
-                        <td><button>Edit</button></td>
-                        <td><button>Delete</button></td>
-                    </tr>
+                    {% endfor %}
                     </table>
                 </div>
             </div>          

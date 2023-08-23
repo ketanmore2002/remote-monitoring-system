@@ -73,12 +73,11 @@
                     <tr>
                     
                       <th> <label class="label">RMS ID</label></th>
-                      <th><select class="dashboardInput" name="dashboardInput" id="dashboardInput1">
-                        {% for i in data %}
-                        <option id="" value="{{i.rms}}">{{i.rms}}</option>
+                      <th><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                        {% for i in data2 %}
+                        <option value="{{i.rms}}">{{i.rms}}</option>
                         {% endfor %}
                       </select></th>
-                      <th><button class="registration" id="searchButton">Seach</button></th>  
                       <th></th>
                       <th></th>
                       <th></th>
@@ -96,31 +95,76 @@
                     <tr>
                       <th> <label class="label">Geo Tagging Coordinates</label></th>
                       <th>Latitude</th>
-                      <th><input class="dashboardInput" id="lat"></th> 
+                      <th><input class="dashboardInput" id="lat" value="{{data.latitude}}"></th> 
                       <th>Logitude</th>
-                      <th><input class="dashboardInput" id="lng"> </label></th> 
+                      <th><input class="dashboardInput" id="lng"value="{{data.logitude}}" > </label></th> 
                     </table>
                     <table>                 
                     </tr>
-                    <th>Contractor Name </th><th><input class="dashboardInput" id="lat"></th>
-                    <th>Site Address </th><th><input class="dashboardInput" id="lat"></th>
-                    <th>Date of Installation </th><th><input class="dashboardInput" id="lat"></th>
+                    <th>Contractor Name </th><th><input class="dashboardInput" id="lat" value = "{{data.contractor_name}}"></th>
+                    <th>Site Address </th><th><input class="dashboardInput" id="lat" value="{{data.location}}"></th>
+                    <th>Date of Installation </th><th><input class="dashboardInput" id="lat" value="{{data.installation_date}}"></th>
                    </table>
-                 
+                  <table class="siteDetailsTable">
+                    <tr>
+                        <th></th>
+                        <th></th>
                       
-                  
+                    </tr>
+                    <tr>
+                      <td>Capacity</td>
+                      <td>{{data.capacity}} Hp</td>
+
+                      
+                    </tr>
+                    <tr>
+                      <td>Make</td>
+                      <td>{{data.make}}</td>
+                      
+                    </tr>
+                    <tr>
+                      <td>Motor/Pump Model No.</td>
+                      <td>{{data.pump_model_number}}</td>
+                      
+                    </tr>
+                    <tr>
+                      <td>Controller Model No.</td>
+                      <td>{{data.controller_model_number}}</td>
+                     
+                    </tr>
+                    <tr>
+                      <td>Motor/Pump Serial No.</td>
+                      <td>{{data.pump_serial_numbers}}</td>
+                     
+                    </tr>
+                    <tr>
+                      <td>Controller Serial No.</td>
+                      <td>{{data.controller_serial_numbers}}</td>
+                     
+                    </tr>
+                    <tr>
+                      <td>RMS ID</td>
+                      <td>{{data.rms}}</td>
+                     
+                    </tr>
+                    <tr>
+                      <td>Modem ID</td>
+                      <td>{{data.modem_id}}</td>
+                     
+                    </tr>
+                    <tr>
+                      <td>SIM ID</td>
+                      <td>{{data.sim_id}}</td>
+                     
+                    </tr>
+                    <tr>
+                      <td>ICCID</td>
+                      <td>{{data.iccid}}</td>
+                     
+                    </tr>
 
                   </div>             
                 </div>  
     </div>
 </body>
-<script>
-  document.getElementById("searchButton").addEventListener("click", function() {
-    var selectedRMS = document.getElementById("dashboardInput1").value;
-    console.log(selectedRMS)
-    if (selectedRMS) {
-      window.location.href = "/site_details/search/" + selectedRMS + "/";
-    }
-  });
-  </script>
 </html>

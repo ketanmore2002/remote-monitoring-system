@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+  .form-container {
+    width: 300px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  .form-container input[type="text"],
+  .form-container input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+
+  .form-container select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+
+  .form-container button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .form-container button:hover {
+    background-color: #0056b3;
+  }
+</style>
+</head>
+<body>
+
+<div class="form-container">
+  <form action="/user_data_update/{{data.id}}/" method="post">
+    {% csrf_token %}
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" value="{{data.username}}" required>
+
+    <label for="first_name">First Name:</label>
+    <input type="text" id="first_name" name="first_name" value="{{data.first_name}}" required>
+
+    <label for="last_name">Last Name:</label>
+    <input type="text" id="last_name" name="last_name" value="{{data.last_name}}" required>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <label for="user_role">User Role:</label>
+    <select id="user_role" name="user_role" required>
+      <option selected disabled >select option</option>
+      <option value="superadmin">Superadmin</option>
+      <option value="admin">Admin</option>
+      <option value="costumer">Costumer</option>
+      <option value="observer">Observer</option>
+
+    </select>
+
+    <button type="submit">Save</button>
+  </form>
+</div>
+<script>
+function validateForm() {
+    const username = document.getElementById('username');
+    const firstName = document.getElementById('first_name');
+    const lastName = document.getElementById('last_name');
+    const password = document.getElementById('password');
+    const userRole = document.getElementById('user_role');
+  
+    if (username.value === '') {
+      alert('Username is required');
+      return false;
+    }
+  
+    if (firstName.value === '') {
+      alert('First Name is required');
+      return false;
+    }
+  
+    if (lastName.value === '') {
+      alert('Last Name is required');
+      return false;
+    }
+  
+    if (password.value === '') {
+      alert('Password is required');
+      return false;
+    }
+  
+    if (userRole.value === '') {
+      alert('User Role is required');
+      return false;
+    }
+  
+    return true;
+  }
+</script>
+  
+</body>
+</html>

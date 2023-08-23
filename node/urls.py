@@ -26,6 +26,7 @@ urlpatterns = [
         path('login', views.login_view, name='login'),
         path('home', views.home, name='home'),
         path('site_details', views.site_details, name='site_details'),
+        path('site_details/search/<str:rms>/', views.site_details_search, name='site_details'),
         path('alert', views.alerts, name='alerts'),
         path('fault', views.faults, name='faults'),
         path('logout', views.logout_view, name='logout_view'),
@@ -37,5 +38,12 @@ urlpatterns = [
         path("task_data/",views.task_data,name='task_data'),
         path("history_table/<str:rms>/",views.history_table,name='history_table'),
         path("history_table/search/<str:rms>/<str:start_date>/<str:stop_date>/",views.history_table_search,name='history_table'),
+        path("register_pump/",views.register_pump,name='register_pump'),
+        path("costumer_management/",views.costumer_management,name='costumer_management'),
+        path("user_data_create/",views.user_data_create,name='user_data_create'),
+        path("user_data_update/<int:id>/",views.user_data_update,name='user_data_update'),
+        path("user_data_delete/<int:id>/",views.user_data_delete,name='user_data_delete'),
+
+
 
   ]

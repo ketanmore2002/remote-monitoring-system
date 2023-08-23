@@ -20,8 +20,8 @@
     <img class="logo" src="{% static 'images/logo.jpg' %}" alt="Icon">
     <br>
     <a href="/">Home</a>
-    <a href="#">Site Details</a>
-    <a href="#">Log Out</a>
+    <a href="/site_details">Site Details</a>
+    <a href="/logout">Log Out</a>
     <!-- <footer><img src="solarPump.png"> </footer> -->
   </div>
   <div class="row">
@@ -67,16 +67,15 @@
     <div class="testingRightHalf">
       <table>
         <tr>
-          <th><label class="label">Benificery Name</label><input class="dashboardInput" name="dashboardInput"
-              id="">{{data.benificery_name}}</th>
-          <th><label class="label">RMD ID</label><input class="dashboardInput" name="dashboardInput" id="">{{data.rms}}
+          <th><label class="label">Benificery Name</label><input class="dashboardInput" name="dashboardInput" value={{data.benificery_name}}
+              id=""></th>
+          <th><label class="label">RMD ID</label><input class="dashboardInput" name="dashboardInput" id="" value="{{data.rms}}">
           </th>
-          <th><label class="label">Capacity</label><input class="dashboardInput" name="dashboardInput"
-              id="">{{data.capacity}}</th>
-          <th><label class="label">Head</label><input class="dashboardInput" name="dashboardInput" id="">did not
-            understand</th>
-          <th><label class="label">Site Address</label><input class="dashboardInput" name="dashboardInput"
-              id="">{{data.location}}
+          <th><label class="label">Capacity</label><input class="dashboardInput" name="dashboardInput" value="{{data.capacity}}"
+              id=""></th>
+          <th><label class="label">Head</label><input class="dashboardInput" name="dashboardInput" id="" value="did not understand"></th>
+          <th><label class="label">Site Address</label><input class="dashboardInput" name="dashboardInput" value="{{data.district}}"
+              id="">
           </th>
         </tr>
       </table>
@@ -163,7 +162,7 @@
         var data = [
           {
             domain: { x: [0, 1], y: [0, 1] },
-            value: 100,
+            value: 10,
             title: { text: "", font: { size: 14, family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif", bold: true, color: "green" } },
             type: "indicator",
             mode: "gauge",
@@ -287,8 +286,6 @@
           });
         };
         setInterval(task_data, 2000);
-      
-
       });
     </script>
 

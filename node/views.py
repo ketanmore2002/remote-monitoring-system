@@ -161,10 +161,21 @@ def login_view(request):
 
 @login_required(login_url='/login')
 def home(request):
-    data =  water_tank.objects.all()
     if str(request.user.groups.all()[0]) == "superadmin" :
+        data =  water_tank.objects.all()
         return render (request,"home-SuperAdmin.html",{"data":data})
     else :
+        data =  water_tank.objects.filter(create_by = request.user.id)
+        return render (request,"home-Admin.html",{"data":data})
+    
+
+@login_required(login_url='/login')
+def home_search(request,state,district,benificery_name):
+    if str(request.user.groups.all()[0]) == "superadmin" :
+        data =  water_tank.objects.filter(state=state,district=district,benificery_name=benificery_name)
+        return render (request,"home-SuperAdmin.html",{"data":data})
+    else :
+        data =  water_tank.objects.filter(create_by = request.user.id,state=state,district=district,benificery_name=benificery_name)
         return render (request,"home-Admin.html",{"data":data})
 
 @login_required(login_url='/login')
@@ -220,7 +231,8 @@ def register_pump(request):
             rms=rms_id,
             modem_id=modem_id,
             sim_id=sim_id,
-            iccid=iccid
+            iccid=iccid,
+            created_by = request.user.id
         )
         water_tank_obj.save()
         

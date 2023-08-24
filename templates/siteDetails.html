@@ -74,6 +74,7 @@
                     
                       <th> <label class="label">RMS ID</label></th>
                       <th><select class="dashboardInput" name="dashboardInput" id="dashboardInput1">
+                        <option selected disabled >select option</option>
                         {% for i in data %}
                         <option id="" value="{{i.rms}}">{{i.rms}}</option>
                         {% endfor %}

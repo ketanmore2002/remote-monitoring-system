@@ -29,6 +29,7 @@ class water_tank(models.Model):
     signal_strength = models.CharField(max_length=300,blank=True,null=True)
     make = models.CharField(max_length=300,blank=True,null=True)
     site_address = models.CharField(max_length=300,blank=True,null=True)
+    created_by = models.CharField(max_length=300,blank=True,null=True)
     
     # imei = models.CharField(max_length=300,blank=True,null=True)
     # ratings = models.CharField(max_length=300,blank=True,null=True)

@@ -46,20 +46,32 @@
                    <br>
                   <table>
                     <tr>
-                      <th><label class="label">State :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      <th><label class="label">State :</label><select class="dashboardInput" name="dashboardInput" id="state">
+                        <option selected disabled >select option</option>
+                       {% for i in data %}
+                        <option value="{{i.state}}">{{i.state}}</option>
+                        {% endfor %}
                       </select></th>
                     </tr>
                     <tr>
-                      <th><label class="label">District :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      <th><label class="label">District :</label><select class="dashboardInput" name="dashboardInput" id="district">
+                        <option selected disabled >select option</option>
+                        {% for i in data %}
+                        <option value="{{i.district}}">{{i.district}}</option>
+                        {% endfor %}
                       </select></th>
                     </tr>
                     
                     <tr>
-                      <th><label class="label">Beneficiary Name :</label><select class="dashboardInput" name="dashboardInput" id="dashboardInput">
+                      <th><label class="label">Beneficiary Name :</label><select class="dashboardInput" name="dashboardInput" id="benificery_name">
+                        <option selected disabled >select option</option>
+                        {% for i in data %}
+                        <option value="{{i.benificery_name}}">{{i.benificery_name}}</option>
+                        {% endfor %}
                       </select></th>
                     </tr>
                     <tr>
-                      <th> <Button class="search-btn">Search</Button>    </th>
+                      <th> <Button class="search-btn" id="search-btn" onclick="searchWithFilters()">Search</Button>    </th>
                     </tr>
                    
                   <!-- <tr><th>Logged By:- Shweta</th></tr>    
@@ -116,5 +128,15 @@
      </form>
     </section>
     </div>
+    <script>
+      function searchWithFilters() {
+        const state = document.getElementById('state').value;
+        const district = document.getElementById('district').value;
+        const beneficiaryName = document.getElementById('benificery_name').value;
+        
+        const searchURL = `/home/search/${state}/${district}/${beneficiaryName}`;
+        window.location.href = searchURL;
+      }
+      </script>
 </body>
 </html>

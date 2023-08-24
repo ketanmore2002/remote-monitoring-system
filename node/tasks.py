@@ -11,6 +11,9 @@ def delete_objects_task(self):
     # print("Objects deleted successfully.")
     return f'{datetime.now()}: Objects deleted successfully.'
 
+@shared_task(bind=True)
+def check_celery_status():
+    return "Celery is running"
 # @shared_task
 # def schedule_delete_objects_task():
 #     print("running !.")

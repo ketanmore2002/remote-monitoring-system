@@ -71,9 +71,8 @@
                           <th></th>
                           <th colspan="3">
                         <div class="btn-group">
-                          <a id="btn-search"><button>Search</button></a>
-                          <button>Graph</button>
-                          <button class="table">Table</button></th>
+                          <a id="btn-search-graph"><button>Graph</button></a>
+                          <a id="btn-search"><button class="table">Table</button></th></a>
                         </div>
                           <th></th>
                           <th></th>
@@ -116,22 +115,39 @@
     </section>
     </div>
     <script>
-document.getElementById("btn-search").addEventListener("click", function() {
-  // Get selected RMS value from dropdown
-  const rmsSelector = document.getElementById("rms-selector");
-  const selectedRMS = rmsSelector.options[rmsSelector.selectedIndex].value;
-  
-  // Get start_date and stop_date input values
-  const startDate = document.getElementById("start_date").value;
-  const stopDate = document.getElementById("stop_date").value;
-  
-  // Construct the URL
-  const baseUrl = "/history_table/search/";
-  const url = `${baseUrl}${selectedRMS}/${startDate}/${stopDate}`;
-  
-  // Redirect to the constructed URL
-  window.location.href = url;
-});
+      document.getElementById("btn-search").addEventListener("click", function() {
+        // Get selected RMS value from dropdown
+        const rmsSelector = document.getElementById("rms-selector");
+        const selectedRMS = rmsSelector.options[rmsSelector.selectedIndex].value;
+        
+        // Get start_date and stop_date input values
+        const startDate = document.getElementById("start_date").value;
+        const stopDate = document.getElementById("stop_date").value;
+        
+        // Construct the URL
+        const baseUrl = "/history_table/search/";
+        const url = `${baseUrl}${selectedRMS}/${startDate}/${stopDate}`;
+        
+        // Redirect to the constructed URL
+        window.location.href = url;
+      });
+
+      document.getElementById("btn-search-graph").addEventListener("click", function() {
+        // Get selected RMS value from dropdown
+        const rmsSelector = document.getElementById("rms-selector");
+        const selectedRMS = rmsSelector.options[rmsSelector.selectedIndex].value;
+        
+        // Get start_date and stop_date input values
+        const startDate = document.getElementById("start_date").value;
+        const stopDate = document.getElementById("stop_date").value;
+        
+        // Construct the URL
+        const baseUrl = "/graph/search/";
+        const url = `${baseUrl}${selectedRMS}/${startDate}/${stopDate}`;
+        
+        // Redirect to the constructed URL
+        window.location.href = url;
+      });
 </script>
 </body>
 </html>

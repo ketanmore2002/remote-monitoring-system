@@ -13,6 +13,7 @@ class water_tank(models.Model):
     contractor_number = models.CharField(max_length=300,blank=True,null=True)
     installation_date = models.CharField(max_length=300,blank=True,null=True)
     capacity = models.CharField(max_length=300,blank=True,null=True)
+    head = models.CharField(max_length=300,blank=True,null=True)
 
     pump_serial_numbers = models.CharField(max_length=300,blank=True,null=True)
     pump_model_number = models.CharField(max_length=300,blank=True,null=True)
@@ -56,11 +57,11 @@ class water_tank_records(models.Model):
     wattage = models.FloatField(max_length=300,blank=True,null=True)
     present_lpm = models.FloatField(max_length=300,blank=True,null=True)
     start_time = models.TimeField(blank=True,null=True)
-    stop_time = models.TimeField(max_length=300,blank=True,null=True)
+    stop_time = models.TimeField(blank=True,null=True)
+    run_time_today = models.TimeField(blank=True,null=True)
     signal_strength = models.CharField(max_length=300,blank=True,null=True)
-    run_time_today = models.CharField(max_length=300,blank=True,null=True)
-    time = models.CharField(max_length=300,blank=True,null=True)
-    date = models.DateField(auto_now=True)
+    time = models.TimeField(auto_now=True,blank=True,null=True)
+    date = models.DateField(auto_now=True,blank=True,null=True)
 
 
 class water_tank_records_temp(models.Model):
@@ -74,7 +75,7 @@ class water_tank_records_temp(models.Model):
     present_lpm = models.FloatField(max_length=300,blank=True,null=True)
     start_time = models.TimeField(blank=True,null=True)
     stop_time = models.TimeField(max_length=300,blank=True,null=True)
-    run_time_today = models.CharField(max_length=300,blank=True,null=True)
+    run_time_today = models.TimeField(blank=True,null=True)
     signal_strength = models.CharField(max_length=300,blank=True,null=True)
-    time = models.CharField(max_length=300,blank=True,null=True)
-    date = models.DateField(auto_now=True,editable=True)
+    time = models.TimeField(auto_now=True,blank=True,null=True)
+    date = models.DateField(auto_now=True,blank=True,null=True)

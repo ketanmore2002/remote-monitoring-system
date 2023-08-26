@@ -142,28 +142,28 @@
             type: "indicator",
             mode: "gauge",
             gauge: {
-              axis: { range: [0, 100] }
+             
           }
         },
         {
             domain: { x: [0.12, 0.88], y: [0.04, 0.80] },
-            value: 1500,
+            value: {{running|safe}},
             //title: { text: "Degree" },
             type: "indicator",
             mode: "gauge+title",
             gauge: {
-              axis: { range: [0, 5000], tickvals: [] },//bgcolor: "lightgray",  // Set the background color of the gauge
+              ///bgcolor: "lightgray",  // Set the background color of the gauge
             bar: { color: "blue" } // Set the color of the gauge bar
           }
         },
         {
             domain: { x: [0.21, 0.8], y: [0.1, 0.62] },
-            value: 2500,
+            value: {{not_running|safe}},
             //title: { text: "km/h" },
             type: "indicator",
             mode: "gauge+title",
             gauge: {
-              axis: { range: [0, 5000], tickvals: [] },
+              //axis: { range: [0, 5000], tickvals: [] },
                bar: { color: "black" }
           }
         }

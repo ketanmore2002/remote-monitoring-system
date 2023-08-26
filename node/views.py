@@ -24,6 +24,7 @@ from django.core.cache import cache
 
 import json
 
+from datetime import datetime , date , time
 
 
 
@@ -161,12 +162,16 @@ def login_view(request):
 
 @login_required(login_url='/login')
 def home(request):
+
+    running = water_tank.objects.filter(pump_status="ON").count()
+    not_running = water_tank.objects.filter(pump_status="OF").count()
+
     if str(request.user.groups.all()[0]) == "superadmin" :
         data =  water_tank.objects.all()
-        return render (request,"home-SuperAdmin.html",{"data":data})
+        return render (request,"home-SuperAdmin.html",{"data":data,"running":running,"not_running":not_running})
     else :
-        data =  water_tank.objects.filter(create_by = request.user.id)
-        return render (request,"home-Admin.html",{"data":data})
+        data =  water_tank.objects.filter(created_by = request.user.id)
+        return render (request,"home-Admin.html",{"data":data,"running":running,"not_running":not_running})
     
 
 @login_required(login_url='/login')
@@ -175,7 +180,7 @@ def home_search(request,state,district,benificery_name):
         data =  water_tank.objects.filter(state=state,district=district,benificery_name=benificery_name)
         return render (request,"home-SuperAdmin.html",{"data":data})
     else :
-        data =  water_tank.objects.filter(create_by = request.user.id,state=state,district=district,benificery_name=benificery_name)
+        data =  water_tank.objects.filter(created_by = request.user.id,state=state,district=district,benificery_name=benificery_name)
         return render (request,"home-Admin.html",{"data":data})
 
 @login_required(login_url='/login')
@@ -213,6 +218,7 @@ def register_pump(request):
         modem_id = request.POST.get('ModemID')
         sim_id = request.POST.get('SIMID')
         iccid = request.POST.get('ICCID')
+        head = request.POST.get('Head')
         
         # Create and save a new water_tank instance
         water_tank_obj = water_tank(
@@ -232,7 +238,8 @@ def register_pump(request):
             modem_id=modem_id,
             sim_id=sim_id,
             iccid=iccid,
-            created_by = request.user.id
+            created_by = request.user.id,
+            head = head
         )
         water_tank_obj.save()
         
@@ -256,16 +263,15 @@ def index(request):
     return redirect ("/home")
 
 
-from datetime import datetime , date
 @login_required(login_url='/login')
 def dashboard(request,rms):
     data =  water_tank.objects.filter(rms=rms).first()
-    data2 =  water_tank_records.objects.filter(rms=rms).reverse().first()
+    data2 =  water_tank_records.objects.filter(rms=rms).reverse().last()
     data3 =  water_tank_records_temp.objects.filter(rms=rms).reverse()
     try :
         start_time = datetime.strptime((data2.start_time).strftime("%H:%M"), '%H:%M')
         stop_time = datetime.strptime((data2.stop_time).strftime("%H:%M"), '%H:%M')
-        run_time = start_time - stop_time
+        run_time = stop_time - start_time 
         return render (request,"dashboard/dashboard.html",{"data":data ,"run_time":run_time , "data2":data2 , "data3":data3})
     except:
         return render (request,"dashboard/dashboard.html",{"data":data , "data2":data2 , "data3":data3})
@@ -282,6 +288,19 @@ def history_table_search(request,rms,start_date,stop_date):
     data =  water_tank_records.objects.filter( rms=rms, date__range=(start_date, stop_date) )
     data2 =  water_tank.objects.all()#.values_list("rms",flat=True)
     return render(request,'tableHistoricData.html',{"data":data,"data2":data2})
+
+
+# voltage_std = (list(voltage_model.objects.filter(uuid = dict_data["uuid"],date__range=(request.data["start_date"], request.data["end_date"]),time__range=(x,y)).values_list('voltage', flat=True)) )
+
+
+def graph_search(request,rms,start_date,stop_date):
+    
+    run_time =  list(water_tank_records.objects.filter( rms=rms, date__range=(start_date, stop_date)).values_list("run_time_today",flat=True))
+    run_time = [time_obj.strftime("%H:%M") for time_obj in run_time]
+    date =  list(water_tank_records.objects.filter( rms=rms, date__range=(start_date, stop_date)).values_list("date",flat=True))
+    date = [date_obj.strftime("%Y-%m-%d") for date_obj in date]
+
+    return render(request,'graph/graphHistoricData.html',{"run_time":run_time,"date":date})
 
 from django.contrib.auth.models import User
 def costumer_management(request):
@@ -359,36 +378,53 @@ def create_node (request) :
 
         if water_tank.objects.filter(rms = dict_data["rms"]).exists() :
 
-            water_tank.objects.filter(rms = dict_data["rms"]).update(pump_status = dict_data["pump_status"] , signal_strength = dict_data["signal_strength"])
+            # start_time = datetime.strptime(dict_data["start_time"], "%H:%M:%S").time()
+            # stop_time = datetime.strptime(dict_data["stop_time"], "%H:%M:%S").time()
 
-            water_tank_records.objects.create(rms = dict_data["rms"] , cumulative_lpd = dict_data["cumulative_lpd"] , current_lpm = dict_data["current_lpm"] , 
-                                              voltage = dict_data["voltage"] , current = dict_data["current"] , power = dict_data["power"] , 
-                                              wattage = dict_data["wattage"] , present_lpm = dict_data["present_lpm"] , start_time = dict_data["start_time"] , 
-                                              stop_time = dict_data["stop_time"] , signal_strength = dict_data["signal_strength"] , run_time_today = dict_data["run_time_today"],
-                                               time = dict_data["time"] )
-            
+            start_time = datetime.strptime(dict_data["start_time"],"%H:%M").time()
+            stop_time = datetime.strptime(dict_data["stop_time"],"%H:%M").time()
+
+            # run_time_today = start_time - stop_time
+
+            run_time_today = datetime.combine(date.min, stop_time) - datetime.combine(date.min, start_time)
+
+            print(run_time_today)
+
             if water_tank_records_temp.objects.filter(rms = dict_data["rms"]).exists() :
 
                 obj = water_tank_records_temp.objects.filter(rms = dict_data["rms"]).last()
+
+                cumulative_lpd = obj.cumulative_lpd + float(dict_data["present_lpm"])
             
-                water_tank_records_temp.objects.create(rms = dict_data["rms"] , cumulative_lpd = obj.cumulative_lpd + float(dict_data["cumulative_lpd"]) , 
-                                                       current_lpm = obj.current_lpm + float(dict_data["current_lpm"]) , voltage = obj.voltage + float(dict_data["voltage"]) , 
-                                                       current = obj.current_lpm + float(dict_data["current"]) , power = obj.power + float(dict_data["power"]) , wattage = obj.wattage + float(dict_data["wattage"]) , 
-                                                       present_lpm = obj.present_lpm + float(dict_data["present_lpm"]) , start_time = dict_data["start_time"] , 
-                                                       stop_time = dict_data["stop_time"], signal_strength = dict_data["signal_strength"] ,  run_time_today = dict_data["run_time_today"],
-                                                        time = dict_data["time"]  )
-                cache.set("node", "changed",timeout=2)
-                return HttpResponse ("done" , status=200)
+                water_tank_records_temp.objects.create(rms = dict_data["rms"] , cumulative_lpd = cumulative_lpd ,voltage = float(dict_data["voltage"]) , 
+                                                       current = float(dict_data["current"]) , power = float(dict_data["power"]) , wattage = float(dict_data["wattage"]) , 
+                                                       present_lpm = float(dict_data["present_lpm"]) , start_time = dict_data["start_time"] , 
+                                                       stop_time = dict_data["stop_time"], signal_strength = dict_data["signal_strength"] ,
+                                                       run_time_today = str(run_time_today))
         
             else :
-                water_tank_records_temp.objects.create(rms = dict_data["rms"] , cumulative_lpd = float(dict_data["cumulative_lpd"]) , 
-                                                       current_lpm = float(dict_data["current_lpm"]) , voltage = float(dict_data["voltage"]) , 
+
+                cumulative_lpd = float(dict_data["present_lpm"])
+
+                water_tank_records_temp.objects.create(rms = dict_data["rms"] , cumulative_lpd = cumulative_lpd , 
+                                                       voltage = float(dict_data["voltage"]) , 
                                                        current =  float(dict_data["current"]) , power = float(dict_data["power"]) , wattage = float(dict_data["wattage"]) , 
                                                        present_lpm = float(dict_data["present_lpm"]) , start_time = dict_data["start_time"] , 
-                                                       stop_time = dict_data["stop_time"],signal_strength = dict_data["signal_strength"] ,  run_time_today = dict_data["run_time_today"],
-                                                        time = dict_data["time"]  )
-                cache.set("node", "changed",timeout=2)
-                return HttpResponse ("done" , status=200)
+                                                       stop_time = dict_data["stop_time"],signal_strength = dict_data["signal_strength"] ,
+                                                       run_time_today = str(run_time_today),)
+                
+
+            water_tank_records.objects.create(rms = dict_data["rms"] , cumulative_lpd = cumulative_lpd ,voltage = dict_data["voltage"] , 
+                                              current = dict_data["current"] , power = dict_data["power"] , 
+                                              wattage = dict_data["wattage"] , present_lpm = dict_data["present_lpm"] , start_time = dict_data["start_time"] , 
+                                              stop_time = dict_data["stop_time"] , signal_strength = dict_data["signal_strength"] ,
+                                              run_time_today = str(run_time_today),)
+            
+            water_tank.objects.filter(rms = dict_data["rms"]).update(pump_status = dict_data["pump_status"] , signal_strength = dict_data["signal_strength"])
+            
+            cache.set("node", "changed",timeout=2)
+            return HttpResponse ("done" , status=200)
+        
         else :
             return HttpResponse ("error2" ,status=404)
     return HttpResponse ("error3" ,status=404)

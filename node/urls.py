@@ -17,7 +17,7 @@ urlpatterns = [
       #   path("api/time/<str:rms>/",views.get_time_data.as_view(),name='get_time_data'),
         
       #   path("api/fault/",views.get_single_faulty_data.as_view(),name='get_single_faulty_data'),
-      #   path("api/login/",views.LoginAPI.as_view()),
+        path("api/login/",views.LoginAPI.as_view()),
       #   path('api/register/',views.RegisterAPI.as_view()),
       #   path('api/logout/', knox_views.LogoutView.as_view(), name='logout'),
       #   path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
@@ -44,7 +44,7 @@ urlpatterns = [
         path("user_data_create/",views.user_data_create,name='user_data_create'),
         path("user_data_update/<int:id>/",views.user_data_update,name='user_data_update'),
         path("user_data_delete/<int:id>/",views.user_data_delete,name='user_data_delete'),
-
+        path("graph/search/<str:rms>/<str:start_date>/<str:stop_date>/",views.graph_search,name='graph_search'),
 
 
   ]

@@ -73,7 +73,7 @@
           </th>
           <th><label class="label">Capacity</label><input class="dashboardInput" name="dashboardInput" value="{{data.capacity}}"
               id=""></th>
-          <th><label class="label">Head</label><input class="dashboardInput" name="dashboardInput" id="" value="did not understand"></th>
+          <th><label class="label">Head</label><input class="dashboardInput" name="dashboardInput" id="" value="{{data.head}}"></th>
           <th><label class="label">Site Address</label><input class="dashboardInput" name="dashboardInput" value="{{data.district}}"
               id="">
           </th>
@@ -156,20 +156,52 @@
     <script>
       $(document).ready(function () {
 
-        window.addEventListener("load", () => {
+        console.log({{data.capacity}})
 
-        })
+        if( {{data.capacity}} == "1" ){
+
+          var voltage_range = [0, 120]
+          var voltage_tickvals = [0, 20, 40, 60, 80, 100, 120]
+
+          var power_range = [0, 1000]
+          var power_tickvals = [0, 200, 400, 600, 800, 1000]
+
+        }else if ({{data2.voltage}} == "2" ){
+
+          var voltage_range = [0, 240]
+          var voltage_tickvals = [0, 20, 40, 60, 80, 100, 120 , 140 , 160, 180, 200 , 220 , 240]
+
+          var power_range = [0, 2000]
+          var power_tickvals = [0, 200, 400, 600, 800, 1000 ,1200 , 1400 ,1600 , 1800 ,2000]
+
+        }else if ({{data2.voltage}} == "3" ){
+
+          var voltage_range = [0, 360]
+          var voltage_tickvals = [0, 20, 40, 60, 80, 100, 120 , 140 , 160, 180, 200 , 220 , 240 , 260 , 280 , 300 , 320 , 340 , 360]
+
+          var power_range = [0, 3000]
+          var power_tickvals = [0 , 250 , 500 , 750 , 1000 , 1250 , 1500 ,1750 ,2000 ,2250 , 2500 ,2750 ,3000]
+
+        }else{
+
+          var voltage_range = [0, 550]
+          var voltage_tickvals = [0, 50 , 100 , 150 , 200 , 250 , 300 , 350 , 400 ,450 , 500 , 550]
+
+          var power_range = [0, 5000]
+          var power_tickvals = [0  , 500, 1000, 1500 ,2000, 2500, 3000 , 3500 , 4000 , 4500 , 5000]
+        }
+
         var data = [
           {
             domain: { x: [0, 1], y: [0, 1] },
-            value: 10,
+            value: {{data2.voltage}},
             title: { text: "", font: { size: 14, family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif", bold: true, color: "green" } },
             type: "indicator",
             mode: "gauge",
             gauge: {
               axis: {
-                range: [0, 120],
-                tickvals: [0, 20, 40, 60, 80, 100, 120],
+                range: voltage_range,
+                tickvals: voltage_tickvals ,
                 tickfont: {  // Adding font settings for the tick labels
                   size: 10,  // Specify the desired font size for the tick labels
                   family: "Arial, sans-serif",  // Specify the font family for the tick labels
@@ -198,7 +230,7 @@
         var data = [
           {
             domain: { x: [0, 1], y: [0, 1.5] },
-            value: 10,
+            value: {{data2.current}},
             title: { text: "", font: { size: 14, family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif", bold: true, color: "green" } },
             type: "indicator",
             mode: "gauge",
@@ -234,14 +266,14 @@
         var data = [
           {
             domain: { x: [0, 1], y: [0, 1.5] },
-            value: 450,
+            value: {{data2.power}},
             title: { text: "", font: { size: 14, family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif", bold: true, color: "green" } },
             type: "indicator",
             mode: "gauge",
             gauge: {
               axis: {
-                range: [0, 1000],
-                tickvals: [0, 200, 400, 600, 800, 1000],
+                range: power_range,
+                tickvals: power_tickvals,
                 tickfont: {  // Adding font settings for the tick labels
                   size: 10,  // Specify the desired font size for the tick labels
                   family: "Arial, sans-serif",  // Specify the font family for the tick labels

@@ -166,22 +166,32 @@ def home(request):
     running = water_tank.objects.filter(pump_status="ON").count()
     not_running = water_tank.objects.filter(pump_status="OF").count()
 
+    state = water_tank.objects.values_list('state', flat=True).distinct()
+    district = water_tank.objects.values_list('district', flat=True).distinct()
+
     if str(request.user.groups.all()[0]) == "superadmin" :
         data =  water_tank.objects.all()
-        return render (request,"home-SuperAdmin.html",{"data":data,"running":running,"not_running":not_running})
+        return render (request,"home-SuperAdmin.html",{"data":data,"running":running,"not_running":not_running,"state":state,"district":district})
     else :
         data =  water_tank.objects.filter(created_by = request.user.id)
-        return render (request,"home-Admin.html",{"data":data,"running":running,"not_running":not_running})
+        return render (request,"home-Admin.html",{"data":data,"running":running,"not_running":not_running,"state":state,"district":district})
     
 
 @login_required(login_url='/login')
 def home_search(request,state,district,benificery_name):
+
+    running = water_tank.objects.filter(pump_status="ON").count()
+    not_running = water_tank.objects.filter(pump_status="OF").count()
+
+    state_list = water_tank.objects.values_list('state', flat=True).distinct()
+    district_list = water_tank.objects.values_list('district', flat=True).distinct()
+
     if str(request.user.groups.all()[0]) == "superadmin" :
         data =  water_tank.objects.filter(state=state,district=district,benificery_name=benificery_name)
-        return render (request,"home-SuperAdmin.html",{"data":data})
+        return render (request,"home-SuperAdmin.html",{"data":data,"running":running,"not_running":not_running,"state":state_list,"district":district_list})
     else :
         data =  water_tank.objects.filter(created_by = request.user.id,state=state,district=district,benificery_name=benificery_name)
-        return render (request,"home-Admin.html",{"data":data})
+        return render (request,"home-Admin.html",{"data":data,"running":running,"not_running":not_running,"state":state_list,"district":district_list})
 
 @login_required(login_url='/login')
 def site_details(request):

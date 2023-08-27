@@ -48,7 +48,7 @@
                     <tr>
                       <th><label class="label">State :</label><select class="dashboardInput" name="dashboardInput" id="state">
                         <option selected disabled >select option</option>
-                       {% for i in data %}
+                       {% for i in state %}
                         <option value="{{i.state}}">{{i.state}}</option>
                         {% endfor %}
                       </select></th>
@@ -56,7 +56,7 @@
                     <tr>
                       <th><label class="label">District :</label><select class="dashboardInput" name="dashboardInput" id="district">
                         <option selected disabled >select option</option>
-                        {% for i in data %}
+                        {% for i in district %}
                         <option value="{{i.district}}">{{i.district}}</option>
                         {% endfor %}
                       </select></th>
@@ -206,8 +206,8 @@
        
       var button = document.getElementById('myButton');
       document.getElementById('counter1').textContent = {{data.count}};
-      document.getElementById('counter2').textContent = 1500;
-      document.getElementById('counter3').textContent = 2500;
+      document.getElementById('counter2').textContent = {{running|safe}};
+      document.getElementById('counter3').textContent = {{not_running|safe}};
     </script>
     <script>
       function searchWithFilters() {

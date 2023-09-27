@@ -294,7 +294,7 @@ def edit_pump(request,rms):
 
     return render(request, "edit_pump.html",{"rms":rms})
 
-
+@login_required(login_url='/login')
 def delete_pump (request,rms):
     water_tank.objects.filter(rms=rms).delete()
     return redirect('/')  # Change 'success_page' to your desired URL

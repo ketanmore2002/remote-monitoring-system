@@ -1,0 +1,245 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Pump Registration</title>
+   <link rel="stylesheet" href="{% static 'styles.css' %}">
+   <!-- Load plotly.js into the DOM -->
+   <script src="{% static 'plotly-2.20.0.min.js' %}" charset="utf-8"></script>
+</head>
+
+<body>
+   <div class="sidebar">
+      <br>
+      <img class="logo" src="{% static 'images/logo.jpg' %}" alt="Icon">
+      <br>
+      <a href="/">Home</a>
+      <a href="/site_details">Site Details</a>
+      <div class="registrationSideBar">
+         <a href="/register_pump">Registration</a>
+      </div>
+      <a href="#">Log Out</a>
+      <!-- <footer><img src="solarPump.png"> </footer> -->
+   </div>
+   <div class="row">
+      <div class="nav">
+         <table class="navbartable">
+            <tr>
+               <th></th>
+               <th></th>
+               <th></th>
+               <th></th>
+               <th></th>
+               <th>
+                  <h1>Solar Water Pump Remote Monitoring System</h1>
+               </th>
+               <th></th>
+               <th>Login By : <br> {{request.user.username}} <br> {{request.user.last_login}} </th>
+            </tr>
+         </table>
+
+      </div>
+   </div>
+   <div class="row">
+      <div class="testingLeftHalf">
+
+      </div>
+      <div class="registrationRightHalf">
+         <br>
+         <label class="registrationTitle">For the Registration of a Pump, fill out the following form
+         </label>
+         <form id="myForm" action="/edit/{{rms}}/" method="POST">
+            {% csrf_token %}
+         <br>
+         <table>
+            <tr>
+               <th><label>Contrator Name</label></th>
+               <th><input type="text" class="registartionInput" id="ContractorName" placeholder="Contrator Name" name="ContractorName"></th>
+
+            </tr>
+            <tr>
+               <th><label>Beneficiary Name</label></th>
+               <th><input type="text" name="BeneficiaryName" class="registartionInput" id="BeneficiaryName" placeholder="Beneficiary Name">
+               </th>
+            </tr>
+            <tr>
+               <th><label>Site Address</label></th>
+               <th><input type="text" name="SiteAddress" class="registartionInput" id="SiteAddress" placeholder="Site Address"></th>
+            </tr>
+            <tr>
+               <th><label>District</label></th>
+               <th><select class="registartionInput" name="District" id="District" placeholder="District">
+                  <option value="" disabled selected>Select a district</option>
+  <option value="Ahmednagar">Ahmednagar</option>
+  <option value="Akola">Akola</option>
+  <option value="Amravati">Amravati</option>
+  <option value="Aurangabad">Aurangabad</option>
+  <option value="Beed">Beed</option>
+  <option value="Bhandara">Bhandara</option>
+  <option value="Buldhana">Buldhana</option>
+  <option value="Chandrapur">Chandrapur</option>
+  <option value="Dhule">Dhule</option>
+  <option value="Gadchiroli">Gadchiroli</option>
+  <option value="Gondia">Gondia</option>
+  <option value="Hingoli">Hingoli</option>
+  <option value="Jalgaon">Jalgaon</option>
+  <option value="Jalna">Jalna</option>
+  <option value="Kolhapur">Kolhapur</option>
+  <option value="Latur">Latur</option>
+  <option value="Mumbai City">Mumbai City</option>
+  <option value="Mumbai Suburban">Mumbai Suburban</option>
+  <option value="Nagpur">Nagpur</option>
+  <option value="Nanded">Nanded</option>
+  <option value="Nandurbar">Nandurbar</option>
+  <option value="Nashik">Nashik</option>
+  <option value="Osmanabad">Osmanabad</option>
+  <option value="Palghar">Palghar</option>
+  <option value="Parbhani">Parbhani</option>
+  <option value="Pune">Pune</option>
+  <option value="Raigad">Raigad</option>
+  <option value="Ratnagiri">Ratnagiri</option>
+  <option value="Sangli">Sangli</option>
+  <option value="Satara">Satara</option>
+  <option value="Sindhudurg">Sindhudurg</option>
+  <option value="Solapur">Solapur</option>
+  <option value="Thane">Thane</option>
+  <option value="Wardha">Wardha</option>
+  <option value="Washim">Washim</option>
+  <option value="Yavatmal">Yavatmal</option>
+
+               </select></th>
+            </tr>
+            <tr>
+               <th><label>State</label></th>
+               <th><select class="registartionInput" name="State" id="State" placeholder="State">
+                  <option value="" disabled selected>Select a state</option>
+  <option value="Andhra Pradesh">Andhra Pradesh</option>
+  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+  <option value="Assam">Assam</option>
+  <option value="Bihar">Bihar</option>
+  <option value="Chhattisgarh">Chhattisgarh</option>
+  <option value="Goa">Goa</option>
+  <option value="Gujarat">Gujarat</option>
+  <option value="Haryana">Haryana</option>
+  <option value="Himachal Pradesh">Himachal Pradesh</option>
+  <option value="Jharkhand">Jharkhand</option>
+  <option value="Karnataka">Karnataka</option>
+  <option value="Kerala">Kerala</option>
+  <option value="Madhya Pradesh">Madhya Pradesh</option>
+  <option value="Maharashtra">Maharashtra</option>
+  <option value="Manipur">Manipur</option>
+  <option value="Meghalaya">Meghalaya</option>
+  <option value="Mizoram">Mizoram</option>
+  <option value="Nagaland">Nagaland</option>
+  <option value="Odisha">Odisha</option>
+  <option value="Punjab">Punjab</option>
+  <option value="Rajasthan">Rajasthan</option>
+  <option value="Sikkim">Sikkim</option>
+  <option value="Tamil Nadu">Tamil Nadu</option>
+  <option value="Telangana">Telangana</option>
+  <option value="Tripura">Tripura</option>
+  <option value="Uttar Pradesh">Uttar Pradesh</option>
+  <option value="Uttarakhand">Uttarakhand</option>
+  <option value="West Bengal">West Bengal</option>
+  <!-- Add more options for other states -->
+
+                  </select></th>
+            </tr>
+            <tr>
+               <th><label>Date of Installation</label></th>
+               <th><input type="date" name="DateofInstallation" class="registartionInput" id="DateofInstallation"
+                     placeholder="Date of Installation"></th>
+            </tr>
+            <tr>
+               <th><label>Capacity</label></th>
+               <th><select class="registartionInput" name="Capacity" id="Capacity" placeholder="Capacity">
+               <option value="" selected disabled>Select option</option>
+               <option value="1">1 HP</option>
+               <option value="2">2 HP</option>
+               <option value="3">3 HP</option>
+               <option value="4">4 HP</option>
+               <option value="5">5 HP</option>
+               </select></th>
+            </tr>
+            <tr>
+               <th><label>Head</label></th>
+               <th><input type="text" name="Head"  class="registartionInput" id="Head" placeholder="Head"></th>
+            </tr>
+            <tr>
+               <th><label>Make</label></th>
+               <th><input type="text" name="Make"  class="registartionInput" id="Make" placeholder="Make"></th>
+            </tr>
+            <tr>
+               <th><label>Motor/Pump Model No.</label></th>
+               <th><input type="text" name="PumpModelNo"  class="registartionInput" id="PumpModelNo" placeholder="Motor/Pump Model No.">
+               </th>
+            </tr>
+            <tr>
+               <th><label>Controller Model No.</label></th>
+               <th><input type="text" name="ControllerModelNo"  class="registartionInput" id="ControllerModelNo"
+                     placeholder="Controller Model No."></th>
+            </tr>
+            <tr>
+               <th><label>Motor/Pump Serial No.</label></th>
+               <th><input type="text" name="PumpSerialNo" class="registartionInput" id="PumpSerialNo" placeholder="Motor/Pump Serial No.">
+               </th>
+            </tr>
+            <tr>
+               <th><label>Controller Serial No.</label></th>
+               <th><input type="text" name="ControllerSerialNo" class="registartionInput" id="ControllerSerialNo"
+                     placeholder="Controller Serial No."></th>
+            </tr>
+            <tr>
+               <th><label>RMS ID</label></th>
+               <th><input type="text" name="RMSID" class="registartionInput" id="RMSID" placeholder="RMS ID"></th>
+            </tr>
+            <tr>
+               <th><label>Modem ID</label></th>
+               <th><input type="test" name="ModemID" class="registartionInput" id="ModemID" placeholder="Modem ID"></th>
+            </tr>
+            <tr>
+               <th><label>SIM ID</label></th>
+               <th><input type="text" name="SIMID" class="registartionInput" id="SIMID" placeholder="SIM ID"></th>
+            </tr>
+            <tr>
+               <th><label>ICCID</label></th>
+               <th><input type="text" name="ICCID"  class="registartionInput" id="ICCID" placeholder="ICCID"></th>
+            </tr>
+            <tr>
+               <th></th>
+               <th> <button class="submit" id="submitButton">Submit</button></th>
+            </tr>
+         </table>
+         </form>
+
+      </div>
+   </div>
+   </table>
+   </form>
+   </section>
+   </div>
+   <script>
+      document.getElementById("submitButton").addEventListener("click", function(event) {
+        var formFields = document.querySelectorAll(".registartionInput");
+        var isFormValid = true;
+      
+        for (var i = 0; i < formFields.length; i++) {
+          if (formFields[i].value.trim() === "") {
+            isFormValid = false;
+            break;
+          }
+        }
+      
+        if (!isFormValid) {
+          event.preventDefault();
+          alert("Please fill in all fields before submitting.");
+        }
+      });
+      </script>
+</body>
+
+</html>

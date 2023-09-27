@@ -45,6 +45,6 @@ urlpatterns = [
         path("user_data_update/<int:id>/",views.user_data_update,name='user_data_update'),
         path("user_data_delete/<int:id>/",views.user_data_delete,name='user_data_delete'),
         path("graph/search/<str:rms>/<str:start_date>/<str:stop_date>/",views.graph_search,name='graph_search'),
-
-
+        path("edit/<str:rms>/",views.edit_pump,name='edit_pump'),
+        path("delete/<str:rms>/",views.delete_pump,name='delete_pump'),
   ]

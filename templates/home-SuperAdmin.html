@@ -113,6 +113,8 @@
                             <td>Location</td>
                             <td>Capacity &</br>Dynamic Head</td>
                             <td colspan="4">Data Status</td>
+                            <td>edit</td>
+                            <td>delete</td>
                         </tr>
                         {% for i in data %}
                         <tr class="tableData">
@@ -122,6 +124,8 @@
                           <td>{{i.capacity}} &</br>Dynamic Head(NA)</td>
                           <td colspan="2"><a href="/dashboard/{{i.rms}}/">DashBoard</a></td>
                           <td colspan="2"><a href="/history_table/{{i.rms}}/">History</a></td></td>
+                          <td><a href="/edit/{{i.rms}}/">edit</a></td>
+                          <td><a href="/delete/{{i.rms}}/">delete</a></td>
                       </tr>
                       {% endfor %}
                     </div>

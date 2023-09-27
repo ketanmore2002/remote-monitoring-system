@@ -47,7 +47,7 @@ class water_tank(models.Model):
 
 
 
-class water_tank_records(models.Model):
+class water_tank_records(models.Model): # this is for storing one all post request
     rms = models.CharField(max_length=300,blank=True,null=True)
     cumulative_lpd = models.FloatField(max_length=300,blank=True,null=True)
     current_lpm = models.FloatField(max_length=300,blank=True,null=True)
@@ -64,7 +64,7 @@ class water_tank_records(models.Model):
     date = models.DateField(auto_now=True,blank=True,null=True)
 
 
-class water_tank_records_temp(models.Model):
+class water_tank_records_temp(models.Model): # this is for storing one current post request. Previous wont be stored in this 
     rms = models.CharField(max_length=300,blank=True,null=True)
     cumulative_lpd = models.FloatField(max_length=300,blank=True,null=True)
     current_lpm = models.FloatField(max_length=300,blank=True,null=True)

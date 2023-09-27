@@ -259,6 +259,47 @@ def register_pump(request):
     return render(request, "registration.html")
 
 
+
+@login_required(login_url='/login')
+def edit_pump(request,rms):
+    if request.method == 'POST':
+        contractor_name = request.POST.get('ContractorName')
+        beneficiary_name = request.POST.get('BeneficiaryName')
+        site_address = request.POST.get('SiteAddress')
+        district = request.POST.get('District')
+        state = request.POST.get('State')
+        date_of_installation = request.POST.get('DateofInstallation')
+        capacity = request.POST.get('Capacity')
+        make = request.POST.get('Make')
+        pump_model_no = request.POST.get('PumpModelNo')
+        controller_model_no = request.POST.get('ControllerModelNo')
+        pump_serial_no = request.POST.get('PumpSerialNo')
+        controller_serial_no = request.POST.get('ControllerSerialNo')
+        rms_id = request.POST.get('RMSID')
+        modem_id = request.POST.get('ModemID')
+        sim_id = request.POST.get('SIMID')
+        iccid = request.POST.get('ICCID')
+        head = request.POST.get('Head')
+        
+        # Create and save a new water_tank instance
+        water_tank_obj = water_tank.objects.filter(rms=rms).update(contractor_name=contractor_name,benificery_name=beneficiary_name,site_address=site_address,
+                                                                district=district,state=state,installation_date=date_of_installation,capacity=capacity,make=make,pump_model_number=pump_model_no,
+                                                                controller_model_number=controller_model_no,pump_serial_numbers=pump_serial_no,controller_serial_numbers=controller_serial_no,
+                                                                rms=rms_id,modem_id=modem_id,sim_id=sim_id,iccid=iccid,head = head
+                                                                )
+        # water_tank_obj.save()
+        
+        # Redirect to a success page or do any other necessary actions
+        return redirect('/')  # Change 'success_page' to your desired URL
+
+    return render(request, "edit_pump.html",{"rms":rms})
+
+
+def delete_pump (request,rms):
+    water_tank.objects.filter(rms=rms).delete()
+    return redirect('/')  # Change 'success_page' to your desired URL
+
+
 @login_required(login_url='/login')
 def alerts(request):
     return render (request,"alerts.html")

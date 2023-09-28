@@ -58,22 +58,22 @@
          <table>
             <tr>
                <th><label>Contrator Name</label></th>
-               <th><input type="text" class="registartionInput" id="ContractorName" placeholder="Contrator Name" name="ContractorName"></th>
+               <th><input type="text" value="{{data.contractor_name}}" class="registartionInput" id="ContractorName" placeholder="Contrator Name" name="ContractorName"></th>
 
             </tr>
             <tr>
                <th><label>Beneficiary Name</label></th>
-               <th><input type="text" name="BeneficiaryName" class="registartionInput" id="BeneficiaryName" placeholder="Beneficiary Name">
+               <th><input type="text" value="{{data.benificery_name}}" name="BeneficiaryName" class="registartionInput" id="BeneficiaryName" placeholder="Beneficiary Name">
                </th>
             </tr>
             <tr>
                <th><label>Site Address</label></th>
-               <th><input type="text" name="SiteAddress" class="registartionInput" id="SiteAddress" placeholder="Site Address"></th>
+               <th><input type="text" value="{{data.site_address}}" name="SiteAddress" class="registartionInput" id="SiteAddress" placeholder="Site Address"></th>
             </tr>
             <tr>
                <th><label>District</label></th>
                <th><select class="registartionInput" name="District" id="District" placeholder="District">
-                  <option value="" disabled selected>Select a district</option>
+                  <option value="{{data.district}}" selected>{{data.district}}</option>
   <option value="Ahmednagar">Ahmednagar</option>
   <option value="Akola">Akola</option>
   <option value="Amravati">Amravati</option>
@@ -116,7 +116,7 @@
             <tr>
                <th><label>State</label></th>
                <th><select class="registartionInput" name="State" id="State" placeholder="State">
-                  <option value="" disabled selected>Select a state</option>
+                  <option value="{{data.state}}" selected>{{data.state}}</option>
   <option value="Andhra Pradesh">Andhra Pradesh</option>
   <option value="Arunachal Pradesh">Arunachal Pradesh</option>
   <option value="Assam">Assam</option>
@@ -151,13 +151,13 @@
             </tr>
             <tr>
                <th><label>Date of Installation</label></th>
-               <th><input type="date" name="DateofInstallation" class="registartionInput" id="DateofInstallation"
+               <th><input type="date" value="{{data.installation_date}}"  name="DateofInstallation" class="registartionInput" id="DateofInstallation"
                      placeholder="Date of Installation"></th>
             </tr>
             <tr>
                <th><label>Capacity</label></th>
                <th><select class="registartionInput" name="Capacity" id="Capacity" placeholder="Capacity">
-               <option value="" selected disabled>Select option</option>
+               <option value="{{data.capacity}}" selected>{{data.capacity}}</option>
                <option value="1">1 HP</option>
                <option value="2">2 HP</option>
                <option value="3">3 HP</option>
@@ -167,55 +167,56 @@
             </tr>
             <tr>
                <th><label>Head</label></th>
-               <th><input type="text" name="Head"  class="registartionInput" id="Head" placeholder="Head"></th>
+               <th><input type="text" value="{{data.head}}" name="Head"  class="registartionInput" id="Head" placeholder="Head"></th>
             </tr>
             <tr>
                <th><label>Make</label></th>
-               <th><input type="text" name="Make"  class="registartionInput" id="Make" placeholder="Make"></th>
+               <th><input type="text" value="{{data.make}}" name="Make"  class="registartionInput" id="Make" placeholder="Make"></th>
             </tr>
             <tr>
                <th><label>Motor/Pump Model No.</label></th>
-               <th><input type="text" name="PumpModelNo"  class="registartionInput" id="PumpModelNo" placeholder="Motor/Pump Model No.">
+               <th><input type="text" value="{{data.pump_model_number}}" name="PumpModelNo"  class="registartionInput" id="PumpModelNo" placeholder="Motor/Pump Model No.">
                </th>
             </tr>
             <tr>
                <th><label>Controller Model No.</label></th>
-               <th><input type="text" name="ControllerModelNo"  class="registartionInput" id="ControllerModelNo"
+               <th><input type="text" value="{{data.controller_model_number}}" name="ControllerModelNo"  class="registartionInput" id="ControllerModelNo"
                      placeholder="Controller Model No."></th>
             </tr>
             <tr>
                <th><label>Motor/Pump Serial No.</label></th>
-               <th><input type="text" name="PumpSerialNo" class="registartionInput" id="PumpSerialNo" placeholder="Motor/Pump Serial No.">
+               <th><input type="text" value="{{data.pump_serial_numbers}}"  name="PumpSerialNo" class="registartionInput" id="PumpSerialNo" placeholder="Motor/Pump Serial No.">
                </th>
             </tr>
             <tr>
                <th><label>Controller Serial No.</label></th>
-               <th><input type="text" name="ControllerSerialNo" class="registartionInput" id="ControllerSerialNo"
+               <th><input type="text" value="{{data.controller_serial_numbers}}"  name="ControllerSerialNo" class="registartionInput" id="ControllerSerialNo"
                      placeholder="Controller Serial No."></th>
             </tr>
             <tr>
                <th><label>RMS ID</label></th>
-               <th><input type="text" name="RMSID" class="registartionInput" id="RMSID" placeholder="RMS ID"></th>
+               <th><input type="text" value="{{data.rms}}"  name="RMSID" class="registartionInput" id="RMSID" placeholder="RMS ID"></th>
             </tr>
             <tr>
                <th><label>Modem ID</label></th>
-               <th><input type="test" name="ModemID" class="registartionInput" id="ModemID" placeholder="Modem ID"></th>
+               <th><input type="test" value="{{data.modem_id}}"  name="ModemID" class="registartionInput" id="ModemID" placeholder="Modem ID"></th>
             </tr>
             <tr>
                <th><label>SIM ID</label></th>
-               <th><input type="text" name="SIMID" class="registartionInput" id="SIMID" placeholder="SIM ID"></th>
+               <th><input type="text" value="{{data.sim_id}}"  name="SIMID" class="registartionInput" id="SIMID" placeholder="SIM ID"></th>
             </tr>
             <tr>
                <th><label>ICCID</label></th>
-               <th><input type="text" name="ICCID"  class="registartionInput" id="ICCID" placeholder="ICCID"></th>
+               <th><input type="text" value="{{data.iccid}}"  name="ICCID"  class="registartionInput" id="ICCID" placeholder="ICCID"></th>
             </tr>
             <tr>
-               <th></th>
                <th> <button class="submit" id="submitButton">Submit</button></th>
             </tr>
          </table>
-         </form>
-
+      </form>
+      <tr>
+      <a href="/"><th> <button class="submit" id="">cancel</button></a>
+      </tr>
       </div>
    </div>
    </table>

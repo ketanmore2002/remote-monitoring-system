@@ -104,26 +104,7 @@ table{
 * {
   box-sizing: border-box;
 }
-.nav {
-  float:right;
-  grid-column: 1 / span 3;
-  grid-row: 3; 
-  width: 1270px;
-  height:70px;
-  display: grid;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  text-align:justify;
-  margin-bottom: 15px;
-  margin-top: 7px;
-  margin-left: 7px;
-  margin-right:7px;
-  background-size:auto;
-  /*background-image: url('green3.jpg');*/
-  color: rgb(255, 255, 255);
-  background-repeat: repeat;
-  background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
-  background-color: #184b02;
-}
+
 .navbartable th td{
   margin-top: 0;
   color: #ffffff;
@@ -234,8 +215,8 @@ table{
   border: 1px solid #000000;
   padding: 2px;
   /*background-color: #56b32e;*/
-  background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
-  background-color:#56b32e;
+  /* background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);
+  background-color:#56b32e; */
   text-align: center;
   color: rgb(255, 255, 255);
 

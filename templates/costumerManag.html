@@ -7,85 +7,113 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Costumer Management</title>
   <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+   <style>
+      *{
+        padding: 0%;
+        margin: 0%;
+        box-sizing: border-box;
+      }
+      .active{
+        background-color: #31b121;
+        color: white;
+      }
+   </style>
+
   <!-- Load plotly.js into the DOM -->
   <script src="{% static 'plotly-2.20.0.min.js' %}" charset="utf-8"></script>
 </head>
 <body>
-    <div class="sidebar">
-      <br>
-      <img class="logo" src="{% static 'images/logo.jpg' %}" alt="Icon">
-      <br>
-      <br>
-     
-      <a href="/">Home</a>
-      
-      <a href="/site_details">Site Details</a>
-     
-      <div class="costumerManag">
-      <a href="#">Costumer<br> Management</a>
-      </div>
-      <a href="/logout">Log Out</a>
-       <!-- <footer><img src="solarPump.png"> </footer> -->
+  <div class="container-fluid d-flex flex-column flex-md-row p-0" style="min-height: 100vh;">
+    <div class="w-auto flex-lg-shrink-0 d-flex flex-column gap-5 px-3 py-2 border border-2 border-start-0 border-top-0 border-bottom-0 border-secondary">
+      <div class="w-100 d-flex gap-3 align-items-center">
+        <div class="w-100 d-flex align-items-center justify-content-between gap-3">
+          <div class="d-flex align-items-center gap-3 py-3">
+            <img class="" style="width: 40px;" src="{% static 'images/logo.jpg' %}" alt="Icon">
+            <span class="fs-5 fw-bold">Sileaf Technologies <br> Pvt Ltd</span>
+          </div>
+          <button class="btn btn-outline-dark d-block d-md-none"id="menutoggler">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+          </button>
         </div>
-            <div class="row" >
-                <div class="nav">
-                  <table class="navbartable">
-                    <tr>
-                      <th></th>
-                      <th></th>                    
-                      <th><h1>Solar Water Pump Remote Monitoring System</h1></th>
-                      <th></th>
-                      <th>Login By :  <br> {{request.user.username}} <br> {{request.user.last_login}} </th>
-                  </tr>
-                </table>
-                </div>
-            </div>
-            <div class="row">
-                <div class="testingLeftHalf">  
-                                                                
-                  </div>
-                  <div class="historicRightHalf">
-                    <br>
-                    <br>
-                    <a href="/user_data_create"><button class="addConstumerBtn">Add Costumer</button></a>
-                    <br>
-                    <br>
-                    <table class="costumerTable">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>User Name</th>
-                        <th>Role</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                    {% for i in data %}
-                    <tr>
-                        <td>{{i.id}}</td>
-                        <td>{{i.first_name}} {{i.last_name}}</td>
-                        <td>{{i.username}}</td>
-                        <td>{{ i.groups.first.name }}</td>
+      </div>
 
-                        {% if i.groups.first.name == "superadmin" %}
-                        <td>NA</td>
-                        {% else  %}
-                        <th><a href="/user_data_update/{{i.id}}">Edit</a></th>
-                        {% endif %}
-
-                        {% if i.groups.first.name == "superadmin" %}
-                        <td>NA</td>
-                        {% else  %}
-                        <th><a href="/user_data_delete/{{i.id}}">Delete</a></th>
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                    </table>
-                </div>
-            </div>          
-        
-          </table>
-     </form>
-    </section>
+      <nav id="nav" class="w-100 d-none d-md-flex flex-column gap-1 py-3 py-md-0">
+        <a href="/" class=" d-flex d-md-block py-0 py-md-3 px-3 text-decoration-none rounded-3"><span class="w-100 py-3 fw-semibold fs-5">Home</span></a>
+        <hr>
+        <a href="/site_details" class=" d-flex d-md-block py-0 py-md-3 px-3 text-decoration-none rounded-3"><span class="w-100 py-3 fw-semibold fs-5">Site Details</span></a>
+        <hr>
+        <a href="/costumer_management/" class=" active d-flex d-md-block py-0 py-md-3 px-3 text-decoration-none rounded-3"><span class="w-100 py-3 fw-semibold fs-5">Customer Management</span></a>
+        <hr>
+        <a href="/logout" class="d-flex d-md-block py-0 py-md-3 px-3 text-decoration-none rounded-3"><span class="w-100 py-3 fw-semibold fs-5">Log out</span></a>
+      </nav>
     </div>
+
+    <div class="w-100 h-100" style="max-height: 100vh; overflow-y: scroll;">
+      <div class="100">
+        <div class="w-100 d-md-flex align-items-center justify-content-between gap-3 py-3 px-3 px-md-5 text-white" style="background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);">                 
+            <h2>Solar Water Pump Remote Monitoring System</h2>
+            <div>
+              <span class="fw-medium">Login By : </span> {{request.user.username}} <br> <span class="fw-medium">{{request.user.last_login}} </span></div>
+            </div>
+        </div>
+        <div class="w-100 p-3 py-5 p-md-5">
+          <div class="w-100 d-flex flex-column gap-4">
+            <div class=" d-block align-self-start align-self-sm-end">
+              <a class="d-block" href="/user_data_create"><button class="addConstumerBtn mx-0">Add Costumer</button></a>
+            </div>
+            <div class="table-responsive w-100 ">
+              <table class="costumerTable w-100 mx-0">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>User Name</th>
+                    <th>Role</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                {% for i in data %}
+                  <tr>
+                      <td>{{i.id}}</td>
+                      <td>{{i.first_name}} {{i.last_name}}</td>
+                      <td>{{i.username}}</td>
+                      <td>{{ i.groups.first.name }}</td>
+  
+                      {% if i.groups.first.name == "superadmin" %}
+                      <td>NA</td>
+                      {% else  %}
+                      <td><a href="/user_data_update/{{i.id}}">Edit</a></td>
+                      {% endif %}
+  
+                      {% if i.groups.first.name == "superadmin" %}
+                      <td>NA</td>
+                      {% else  %}
+                      <td><a  href="/user_data_delete/{{i.id}}">Delete</a></td>
+                      {% endif %}
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+  <script>
+    document.getElementById("menutoggler").addEventListener("click", ()=>{
+       document.getElementById("nav").classList.toggle("d-none");
+    })
+ </script>
+
+ 
 </body>
 </html>

@@ -5,157 +5,199 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Historic Graph Data</title>
-  <link rel="stylesheet" href="{% static 'graph/styles1.css' %}">
-  <!-- Load plotly.js into the DOM -->
-  <script src="{% static 'graph/plotly-2.20.0.min.js' %}" charset="utf-8"></script>
+  <title>Historic Table Data</title>
+  {% comment %} <link rel="stylesheet" href="styles.css"> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+
+  <!-- ChartJS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    *{
+      padding: 0%;
+      margin: 0%;
+      box-sizing: border-box;
+    }
+    .active{
+      background-color: #31b121;
+      color: white;
+    }
+  </style>
+
+
 </head>
 <body>
-    <div class="sidebar">
-      <br>
-      <img class="logo" src="{% static 'images/logo.jpg' %}" alt="Icon">
-      <br>
-      <a href="/">Home</a>
-      <a href="/site_details/">Site Details</a>
-      <a href="/register_pump/">Pump Registration</a>
-      <a href="/logout/">Log Out</a>
-       <!-- <footer><img src="solarPump.png"> </footer> -->
+  <div class="container-fluid d-flex flex-column flex-md-row p-0" style="min-height: 100vh;">
+
+    <div class="w-auto flex-lg-shrink-0 d-flex flex-column gap-5 px-3 py-2 border border-2 border-start-0 border-top-0 border-bottom-0 border-secondary">
+      <div class="w-100 d-flex gap-3 align-items-center">
+        
+        <div class="w-100 d-flex align-items-center justify-content-between gap-3">
+          <div class="d-flex align-items-center gap-3 py-3">
+            <img class="" style="width: 40px;" src="{% static 'images/logo.jpg' %}" alt="Icon">
+            <span class="fs-5 fw-bold">Sileaf Technologies <br> Pvt Ltd</span>
+          </div>
+          <button class="btn btn-outline-dark d-block d-md-none"id="menutoggler">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+          </button>
+        
         </div>
-            <div class="row" >
-                <div class="nav">
-                  <table class="navbartable">
-                    <tr>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                      <th><h1>Solar Water Pump Remote Monitoring System</h1></th>
-                      <th></th>
-                      <th>Login By :  <br>Admin<br> 11/08/2023 </th>
-                  </tr>
-                </table>
-             
-                </div>
-            </div>
-            <div class="row">
-                <div class="graphLeftHalf">  
-                                                   
-                  </div>
-                  <div class="graphRightHalf"> 
-                    <table>
-                      <h2 class="historicTitle">Historic Data</h2>
-                        <tr>
-                          <th></th> 
-                          <th></th>
-                          <th>RMS ID</th>
-                          <th><select class="RMSIDInput" placeholder="RMS ID">
-                            <option aria-placeholder="RMSID"></option>
-                          </select></th>
-                          <th>From</th>
-                          <th><input type="date" class="RMSIDInput"></th>
-                          <th>To</th>
-                          <th><input type="date" class="RMSIDInput"></th>
-                          <th></th>
-                          <th></th>
-                        </tr>
-                        <tr>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th colspan="3">
-                        <div class="btn-group">
-                          <button class="graph">Graph</button>
-                          <button>Table</button></th>
-                        </div>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                        </tr>
-                      <tr>
-                      <th colspan="5"><div id='myDiv1'><!-- Plotly chart will be drawn inside this DIV --></div></th>
-                      <th colspan="5"><div id='myDiv2'><!-- Plotly chart will be drawn inside this DIV --></div></th>
-                    </tr>
-                  </table> 
-                  <table>
-                   
-                  </table>
-                </div>
-            </div>          
-          <script>
-            var trace2 = {
-              x: {{date|safe}},
-              y: {{run_time|safe}},
-              type: 'bar',
-              name: 'Primary Product',
-              text:{{run_time|safe}}, // This array holds the values for text display
-              textposition: 'auto',
-              marker: {
-                color: 'rgb(49,130,189)',
-                opacity: 0.7,
-              }
-            };
-            
-            var data2 = [trace2];
-            
-            var layout = {
-              title: { text:'Water Out (Lit)',font: { size: 18,  family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif", bold: true, color: "black" } },
-              xaxis: {
-                tickangle: -45
-              },
-              barmode: 'group',
-              height: 350
-            };
-            
-            Plotly.newPlot('myDiv2', data2, layout);
-            
-            var trace1 = {
-              x: {{date|safe}},
-              y: {{run_time|safe}},
-              type: 'bar',
-              name: 'Primary Product',
-              text: {{run_time|safe}}, // This array holds the values for text display
-              textposition: 'auto',
-              marker: {
-                  color: [
-                      'rgb(44, 77, 143)',
-                      'rgb(38, 112, 133)',
-                      'rgb(30, 147, 122)',
-                      'rgb(51, 165, 89)',
-                      'rgb(114, 175, 55)',
-                      'rgb(174, 184, 32)',
-                      'rgb(222, 182, 29)',
-                      'rgb(235, 147, 26)',
-                      'rgb(226, 91, 34)',
-                      'rgb(205, 51, 45)',
-                      'rgb(169, 21, 72)',
-                      'rgb(128, 25, 88)'
-                    ],
-                opacity: 0.7,
-              }
-            };
-                
-              var data = [trace1];
-              
-              var layout = {
-                title: { text:'Working Hours (hr)',font: { size: 18,  family: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif", bold: true, color: "black" } },
-                xaxis: {
-                  tickangle: -45
-                },
-                barmode: 'group',
-                height: 350
-                
-              };
-              
-              Plotly.newPlot('myDiv1', data, layout);
-          
-              
-          </script>
-          </table>
-     </form>
-    </section>
+      </div>
+      <nav id="nav" class="w-100 d-none d-md-flex flex-column gap-1 py-3 py-md-0">
+        <a href="/" class="active d-flex d-md-block py-0 py-md-3 px-3 text-decoration-none rounded-3"><span class="w-100 py-3 fw-semibold fs-5">Home</span></a>
+        <hr>
+        <a href="/site_details" class="d-flex d-md-block py-0 py-md-3 px-3 text-decoration-none rounded-3"><span class="w-100 py-3 fw-semibold fs-5">Site Details</span></a>
+        <hr>
+        <a href="/costumer_management/" class="d-flex d-md-block py-0 py-md-3 px-3 text-decoration-none rounded-3"><span class="w-100 py-3 fw-semibold fs-5">Customer Management</span></a>
+        <hr>
+        <a href="/logout" class="d-flex d-md-block py-0 py-md-3 px-3 text-decoration-none rounded-3"><span class="w-100 py-3 fw-semibold fs-5">Log out</span></a>
+      </nav>
     </div>
+
+    <script>
+      document.getElementById("menutoggler").addEventListener("click", ()=>{
+        document.getElementById("nav").classList.toggle("d-none");
+      })
+    </script>
+
+    <div class="w-100 h-100" style="max-height: 100vh; overflow-y: scroll;">
+      
+      <div class="100">
+        <div class="w-100 d-md-flex align-items-center justify-content-between gap-3 py-3 px-3 px-md-5 text-white" style="background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);">                 
+            <h2>Solar Water Pump Remote Monitoring System</h2>
+            <div>
+              <span class="fw-medium">Login By : </span> {{request.user.username}} <br> <span class="fw-medium">{{request.user.last_login}} </span></div>
+        </div>
+      </div>
+
+      <div class="w-100 p-4">
+        <div class="w-100"> 
+          <h2 class="w-100 fs-1 fw-semibold mb-4" style="color: #105f05;">Historic Data</h2>
+
+          <div class="w-100 d-flex align-items-center gap-3 justify-content-between flex-wrap mb-5">
+
+            <div class="flex-grow-1 d-flex flex-column gap-2">
+              <label class="fs-5 fw-semibold" for="rms-selector">RMS ID</label>
+              <select class="bg-white border border-2 border-secondary p-2 rounded-2 fs-5" placeholder="RMS ID" id="rms-selector">
+                <option aria-placeholder="" disabled selected>Select Option</option>
+                {% for i in data2 %}
+                <option aria-placeholder="RMSID" id = "{{i.rms}}">{{i.rms}}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="flex-grow-1 d-flex flex-column gap-2">
+              <label class="fs-5 fw-semibold" for="start_date">From</label>
+              <input class="bg-white border border-2 border-secondary p-2 rounded-2 fs-5" type="date" class="RMSIDInput" id="start_date">
+            </div>
+
+            <div class="flex-grow-1 d-flex flex-column gap-2">
+              <label class="fs-5 fw-semibold" for="stop_date">To</label>
+              <input class="bg-white border border-2 border-secondary p-2 rounded-2 fs-5" type="date" class="RMSIDInput" id="stop_date">
+            </div>
+
+          </div>
+
+          <div class="w-100 d-flex justify-content-center gap-3 mb-5">
+            <a class="p-3 px-5 border border-1 border-dark fw-semibold fs-5 text-decoration-none text-white" style="background-color: #31b121; cursor: pointer;" id="btn-search-graph">Graph</a>
+            <a class="p-3 px-5 border border-1 border-dark fw-semibold fs-5 text-decoration-none text-white" style="background-color: #105f05; cursor: pointer;" id="btn-search">Table</a>
+          </div>
+
+          <div class="w-100 d-flex flex-column flex-xl-row gap-5" style="overflow-x: auto;">
+            <div class="w-100">
+              <canvas id='myDiv1' width="100%"><!-- Plotly chart will be drawn inside this DIV --></canvas>
+            </div>
+            <div class="w-100">
+              <canvas id='myDiv2' width="100%"><!-- Plotly chart will be drawn inside this DIV --></canvas>
+            </div>
+          </div>
+      </div>
+
+
+    </div>
+    
+  </div>
+      
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+    <script src="{% static 'home.js' %}"></script>
+
+
+    <script>
+      var test = {{run_time|safe}}
+      var new_arr = test.map((ele)=>{
+        return parseFloat(ele);
+      })
+
+      document.addEventListener("DOMContentLoaded", function() {
+          const data_1 = {
+          labels: {{date|safe}},
+          datasets: [{
+            label: 'Sample Data',
+            data: new_arr,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)'
+          }]
+        };
+    
+        // Configuration for the bar chart
+        const config_1 = {
+          type: 'bar',
+          data: data_1,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        };
+    
+        const canvas_1 = document.getElementById('myDiv1');
+        const ctx_1 = canvas_1.getContext('2d');
+        const chart_1 = new Chart(ctx_1, config_1);
+
+
+        const data_2 = {
+          labels: {{date|safe}},
+          datasets: [{
+            label: 'Sample Data',
+            data: new_arr,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)'
+          }]
+        };
+    
+        // Configuration for the bar chart
+        const config_2 = {
+          type: 'bar',
+          data: data_2,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        };
+    
+        const canvas_2 = document.getElementById('myDiv2');
+        const ctx_2 = canvas_2.getContext('2d');
+        const chart_2 = new Chart(ctx_2, config_2);
+
+
+        // console.log({{run_time|safe}})
+
+      }); 
+      
+    </script>
 </body>
 </html>
+
+
+<!--  -->

@@ -318,16 +318,21 @@ def index(request):
 @login_required(login_url='/login')
 def dashboard(request,rms):
     data =  water_tank.objects.filter(rms=rms).first()
-    data2 =  water_tank_records.objects.filter(rms=rms).reverse().last()
+    data2 =  water_tank_records.objects.filter(rms=rms).reverse().first()
     data3 =  water_tank_records_temp.objects.filter(rms=rms).reverse()
-    try :
-        start_time = datetime.strptime((data2.start_time).strftime("%H:%M"), '%H:%M')
-        stop_time = datetime.strptime((data2.stop_time).strftime("%H:%M"), '%H:%M')
-        run_time = stop_time - start_time 
-        return render (request,"dashboard/dashboard.html",{"data":data ,"run_time":run_time , "data2":data2 , "data3":data3})
-    except:
-        return render (request,"dashboard/dashboard.html",{"data":data , "data2":data2 , "data3":data3})
+    start_time = datetime.strptime((data2.start_time).strftime("%H:%M"), '%H:%M')
+    stop_time = datetime.strptime((data2.stop_time).strftime("%H:%M"), '%H:%M')
+    run_time = stop_time - start_time 
 
+    start_time = datetime.strptime(str(start_time), "%Y-%m-%d %H:%M:%S")
+    start_time = start_time.time()
+
+    stop_time = datetime.strptime(str(stop_time), "%Y-%m-%d %H:%M:%S")
+    stop_time = stop_time.time()
+                               
+    print(start_time,stop_time)
+    return render (request,"dashboard/dashboard.html",{"data":data ,"run_time":run_time , "data2":data2 , "data3":data3 , "start_time" : start_time , "stop_time" : stop_time})
+    
 
 
 def history_table(request,rms):
@@ -441,7 +446,7 @@ def create_node (request) :
 
             run_time_today = datetime.combine(date.min, stop_time) - datetime.combine(date.min, start_time)
 
-            print(run_time_today)
+            # print(run_time_today)
 
             if water_tank_records_temp.objects.filter(rms = dict_data["rms"]).exists() :
 

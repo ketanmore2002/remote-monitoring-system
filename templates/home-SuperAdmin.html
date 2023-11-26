@@ -79,15 +79,15 @@
         </div>
       </div>
 
-      <div class="w-100 p-3" style="overflow: hidden;">
+      <div class="w-100 p-1" style="overflow: hidden;">
 
-        <div class="px-md-5 py-3 border border-2 border-top-0 border-start-0 border-end-0">
+        <div class="w-100 px-3 py-2">
 
-          <div class="d-flex align-items-center justify-content-between gap-4 mb-4">
+          <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-4 mb-5 mb-md-4">
             <div class="w-100 d-flex flex-column align-items-start justify-content-start">
-              <label class="fs-5 fw-medium mb-2">State :</label>
-              <select class="w-100 px-3 py-3 bg-white border border-2 rounded-2" name="dashboardInput" id="state">
-                <option selected disabled >select option</option>
+              <label class="fs-6 fw-medium text-uppercase">State</label>
+              <select class="w-100 px-2 py-2 bg-white border border-2 rounded-2" name="dashboardInput" id="state">
+                <option selected disabled >Select option</option>
                 {% for j in state %}
                 <option value="{{j}}">{{j}}</option>
                 {% endfor %}
@@ -95,51 +95,58 @@
             </div>
   
             <div class="w-100 d-flex flex-column align-items-start justify-content-start">
-              <label class="fs-5 fw-medium mb-2">District :</label>
-              <select class="w-100 px-3 py-3 bg-white border border-2 rounded-2" name="dashboardInput" id="district">
-                <option selected disabled >select option</option>
+              <label class="fs-6 fw-medium text-uppercase">District</label>
+              <select class="w-100 px-2 py-2 bg-white border border-2 rounded-2" name="dashboardInput" id="district">
+                <option selected disabled >Select option</option>
                 {% for i in district %}
                 <option value="{{i}}">{{i}}</option>
                 {% endfor %}
               </select>
             </div>
+
+            <div class="w-100 d-flex flex-column align-items-start justify-content-start">
+              <label class="fs-6 fw-medium text-uppercase">Beneficiary Name</label>
+              <select class="w-100 px-2 py-2 bg-white border border-2 rounded-2" name="dashboardInput" id="benificery_name">
+                <option selected disabled >Select option</option>
+                {% for i in data %}
+                <option value="{{i.benificery_name}}">{{i.benificery_name}}</option>
+                {% endfor %}
+              </select>
+            </div>
           </div>
 
-          <div class="w-100 d-flex flex-column align-items-start justify-content-start mb-5">
-            <label class="fs-5 fw-medium mb-2">Beneficiary Name :</label>
-            <select class="w-100 px-3 py-3 bg-white border border-2 rounded-2" name="dashboardInput" id="benificery_name">
-              <option selected disabled >select option</option>
-              {% for i in data %}
-              <option value="{{i.benificery_name}}">{{i.benificery_name}}</option>
-              {% endfor %}
-            </select>
-          </div>
+          
 
           <div class="w-100 d-flex flex-column align-items-start justify-content-start mb-4">
-            <Button class="w-100 py-3 fs-5 search-btn" id="search-btn" onclick="searchWithFilters()">Search</Button>
+            <Button class="w-100 py-2 fs-5 search-btn rounded-2" id="search-btn" onclick="searchWithFilters()">Search</Button>
           </div>
                           
         </div>
 
 
         <div class="w-100">
-          <div class="w-100 d-flex align-items-center justify-content-center p-3 my-3 overflow-scroll">
-            <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
-          </div>
 
-          <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 px-md-3 py-5">
-            <div class="valuebutton fs-5 w-100 d-flex flex-column align-items-center" id="myButton1">
-              <span class="text-center">Total No. of Pumps</span>  
-              <span class="text-center fs-4 fw-bold" id="counter1">0</span>
+          <div class="w-100 d-flex flex-column flex-lg-row py-3">
+
+            <div class="w-100 d-flex align-items-center justify-content-center py-lg-0 py-4">
+              <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
             </div>
-            <div class="valuebutton fs-5 w-100 d-flex flex-column align-items-center" id="myButton2"> 
-              <span class="text-center">Pumps Running</span>
-              <span class="text-center fs-4 fw-bold" id="counter2">0</span>
+  
+            <div class="w-100 d-flex flex-column justify-content-between gap-3 px-3">
+              <div class="valuebutton fs-5 w-100 d-flex flex-column align-items-center rounded-1" id="myButton1">
+                <span class="text-center">Total No. of Pumps</span>  
+                <span class="text-center fs-4 fw-bold" id="counter1">0</span>
+              </div>
+              <div class="valuebutton fs-5 w-100 d-flex flex-column align-items-center rounded-1" id="myButton2"> 
+                <span class="text-center">Pumps Running</span>
+                <span class="text-center fs-4 fw-bold" id="counter2">0</span>
+              </div>
+              <div class="valuebutton fs-5 w-100 d-flex flex-column align-items-center rounded-1" id="myButton3"> 
+                <span class="text-center">Pumps Not Running</span>
+                <span class="text-center fs-4 fw-bold" id="counter3">0</span>
+              </div>
             </div>
-            <div class="valuebutton fs-5 w-100 d-flex flex-column align-items-center" id="myButton3"> 
-              <span class="text-center">Pumps Not Running</span>
-              <span class="text-center fs-4 fw-bold" id="counter3">0</span>
-            </div>
+
           </div>
 
           <style>
@@ -162,7 +169,7 @@
             }
           </style>
 
-          <div class="table-responsive w-100 py-3 overflow-y-scroll">
+          <div class="table-responsive w-100 py-3 px-lg-3">
             <table class="w-100 table table-bordered align-middle border-dark" style="min-width: 700px;" >
               <thead>
                 <tr>

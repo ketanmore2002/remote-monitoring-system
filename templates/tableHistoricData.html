@@ -85,7 +85,7 @@
             <div class="flex-grow-1 d-flex flex-column gap-2">
               <label class="fs-5 fw-semibold" for="rms-selector">RMS ID</label>
               <select class="bg-white border border-2 border-secondary p-2 rounded-2 fs-5" placeholder="RMS ID" id="rms-selector">
-                <option aria-placeholder="" disabled selected>Select Option</option>
+                <option aria-placeholder="" value="Select Option" disabled selected>Select Option</option>
                 {% for i in data2 %}
                 <option aria-placeholder="RMSID" id = "{{i.rms}}">{{i.rms}}</option>
                 {% endfor %}
@@ -141,37 +141,57 @@
 
     <script src="{% static 'home.js' %}"></script>
     <script>
+      
       document.getElementById("btn-search").addEventListener("click", function() {
-        // Get selected RMS value from dropdown
+
         const rmsSelector = document.getElementById("rms-selector");
         const selectedRMS = rmsSelector.options[rmsSelector.selectedIndex].value;
-        
-        // Get start_date and stop_date input values
+
         const startDate = document.getElementById("start_date").value;
         const stopDate = document.getElementById("stop_date").value;
-        
-        // Construct the URL
+    
+        if ( selectedRMS === "Select Option") {
+            alert("Please select an RMS value");
+            return; // Stop further execution
+        }
+    
+        if (!startDate || !stopDate) {
+            alert("Please select both start date and stop date");
+            return; // Stop further execution
+        }
+    
+        const selectedRMS_ = rmsSelector.options[rmsSelector.selectedIndex].value;
+    
         const baseUrl = "/history_table/search/";
-        const url = `${baseUrl}${selectedRMS}/${startDate}/${stopDate}`;
-        
-        // Redirect to the constructed URL
+        const url = `${baseUrl}${selectedRMS_}/${startDate}/${stopDate}`;
+    
         window.location.href = url;
-      });
+    });
+    
 
       document.getElementById("btn-search-graph").addEventListener("click", function() {
-        // Get selected RMS value from dropdown
+
         const rmsSelector = document.getElementById("rms-selector");
         const selectedRMS = rmsSelector.options[rmsSelector.selectedIndex].value;
-        
-        // Get start_date and stop_date input values
+
         const startDate = document.getElementById("start_date").value;
         const stopDate = document.getElementById("stop_date").value;
+    
+        if ( selectedRMS === "Select Option") {
+            alert("Please select an RMS value");
+            return; // Stop further execution
+        }
+    
+        if (!startDate || !stopDate) {
+            alert("Please select both start date and stop date");
+            return; // Stop further execution
+        }
+    
+        const selectedRMS_ = rmsSelector.options[rmsSelector.selectedIndex].value;
         
-        // Construct the URL
         const baseUrl = "/graph/search/";
-        const url = `${baseUrl}${selectedRMS}/${startDate}/${stopDate}`;
+        const url = `${baseUrl}${selectedRMS_}/${startDate}/${stopDate}`;
         
-        // Redirect to the constructed URL
         window.location.href = url;
       });
 </script>

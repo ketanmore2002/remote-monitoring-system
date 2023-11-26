@@ -318,26 +318,25 @@ def index(request):
 @login_required(login_url='/login')
 def dashboard(request,rms):
     data =  water_tank.objects.filter(rms=rms).first()
-    data2 =  water_tank_records.objects.filter(rms=rms).reverse().first()
-    data3 =  water_tank_records_temp.objects.filter(rms=rms).reverse()
-    start_time = datetime.strptime((data2.start_time).strftime("%H:%M"), '%H:%M')
-    stop_time = datetime.strptime((data2.stop_time).strftime("%H:%M"), '%H:%M')
-    run_time = stop_time - start_time 
+    if water_tank_records.objects.filter(rms=rms).count() > 0:
+        data2 =  water_tank_records.objects.filter(rms=rms).reverse().first()
+        data3 =  water_tank_records_temp.objects.filter(rms=rms).reverse()
+        start_time = datetime.strptime((data2.start_time).strftime("%H:%M"), '%H:%M')
+        stop_time = datetime.strptime((data2.stop_time).strftime("%H:%M"), '%H:%M')
+        run_time = stop_time - start_time 
+        start_time = datetime.strptime(str(start_time), "%Y-%m-%d %H:%M:%S")
+        start_time = start_time.time()
+        stop_time = datetime.strptime(str(stop_time), "%Y-%m-%d %H:%M:%S")
+        stop_time = stop_time.time()
+        return render (request,"dashboard/dashboard.html",{"data":data ,"run_time":run_time , "data2":data2 , "data3":data3 , "start_time" : start_time , "stop_time" : stop_time})
+    else:
+        return render (request,"dashboard/dashboard.html",{"data":data})
 
-    start_time = datetime.strptime(str(start_time), "%Y-%m-%d %H:%M:%S")
-    start_time = start_time.time()
-
-    stop_time = datetime.strptime(str(stop_time), "%Y-%m-%d %H:%M:%S")
-    stop_time = stop_time.time()
-                               
-    print(start_time,stop_time)
-    return render (request,"dashboard/dashboard.html",{"data":data ,"run_time":run_time , "data2":data2 , "data3":data3 , "start_time" : start_time , "stop_time" : stop_time})
-    
 
 
 def history_table(request,rms):
-    data =  water_tank_records.objects.filter(rms=rms).reverse()#.first()
-    data2 =  water_tank.objects.all()#.values_list("rms",flat=True)
+    data =  water_tank_records.objects.filter(rms=rms).reverse()
+    data2 =  water_tank.objects.all()
     return render(request,'tableHistoricData.html',{"data":data,"data2":data2})
 # graph
 
@@ -452,7 +451,9 @@ def create_node (request) :
 
                 obj = water_tank_records_temp.objects.filter(rms = dict_data["rms"]).last()
 
-                cumulative_lpd = obj.cumulative_lpd + float(dict_data["present_lpm"])
+                cumulative_lpd = (str(obj.cumulative_lpd + float(dict_data["present_lpm"]))[:-3])
+
+                print(cumulative_lpd)
             
                 water_tank_records_temp.objects.create(rms = dict_data["rms"] , cumulative_lpd = cumulative_lpd ,voltage = float(dict_data["voltage"]) , 
                                                        current = float(dict_data["current"]) , power = float(dict_data["power"]) , wattage = float(dict_data["wattage"]) , 
@@ -462,7 +463,8 @@ def create_node (request) :
         
             else :
 
-                cumulative_lpd = float(dict_data["present_lpm"])
+                cumulative_lpd = (str(obj.cumulative_lpd + float(dict_data["present_lpm"]))[:-3])
+                print(cumulative_lpd)
 
                 water_tank_records_temp.objects.create(rms = dict_data["rms"] , cumulative_lpd = cumulative_lpd , 
                                                        voltage = float(dict_data["voltage"]) , 

@@ -30,7 +30,7 @@ urlpatterns = [
         path('site_details/search/<str:rms>/', views.site_details_search, name='site_details'),
         path('alert', views.alerts, name='alerts'),
         path('fault', views.faults, name='faults'),
-        path('logout', views.logout_view, name='logout_view'),
+        path('logout/', views.logout_view, name='logout_view'),
         
         path('dashboard/<str:rms>/', views.dashboard, name='dashboard'),
         path('historicData', views.historicData, name='historicData'),

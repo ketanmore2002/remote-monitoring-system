@@ -8,221 +8,225 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Pump Registration</title>
    <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+   <style>
+      *{
+        padding: 0%;
+        margin: 0%;
+        box-sizing: border-box;
+      }
+      .active{
+        background-color: #31b121;
+        color: white;
+      }
+   </style>
    <!-- Load plotly.js into the DOM -->
    <script src="{% static 'plotly-2.20.0.min.js' %}" charset="utf-8"></script>
 </head>
 
 <body>
-   <div class="sidebar">
-      <br>
-      <img class="logo" src="{% static 'images/logo.jpg' %}" alt="Icon">
-      <br>
-      <a href="/">Home</a>
-      <a href="/site_details">Site Details</a>
-      <div class="registrationSideBar">
-         <a href="/register_pump">Registration</a>
+
+   <div class="container-fluid d-flex flex-column flex-md-row p-0" style="min-height: 100vh;">
+
+      <div class="w-auto flex-lg-shrink-0 d-flex flex-column gap-5 px-3 py-2 border border-2 border-start-0 border-top-0 border-bottom-0 border-secondary">
+        <div class="w-100 d-flex gap-3 align-items-center">
+          
+          <div class="w-100 d-flex align-items-center justify-content-between gap-3">
+            <div class="d-flex align-items-center gap-3 py-3">
+              <img class="" style="width: 40px;" src="{% static 'images/logo.jpg' %}" alt="Icon">
+              <span class="fs-5 fw-bold">Sileaf Technologies <br> Pvt Ltd</span>
+            </div>
+            <button class="btn btn-outline-dark d-block d-md-none"id="menutoggler">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+              </svg>
+            </button>
+          
+          </div>
+        </div>
+        <nav id="nav" class="w-100 d-none d-md-flex flex-column gap-1 py-3 py-md-0">
+          <a href="/" class=" d-flex d-md-block py-0 py-md-3 px-3 text-decoration-none rounded-3"><span class="w-100 py-3 fw-semibold fs-5">Home</span></a>
+          <hr>
+          <a href="/site_details" class="active d-flex d-md-block py-0 py-md-3 px-3 text-decoration-none rounded-3"><span class="w-100 py-3 fw-semibold fs-5">Site Details</span></a>
+          <hr>
+          <a href="/costumer_management/" class="d-flex d-md-block py-0 py-md-3 px-3 text-decoration-none rounded-3"><span class="w-100 py-3 fw-semibold fs-5">Customer Management</span></a>
+          <hr>
+          <a href="/logout" class="d-flex d-md-block py-0 py-md-3 px-3 text-decoration-none rounded-3"><span class="w-100 py-3 fw-semibold fs-5">Log out</span></a>
+        </nav>
       </div>
-      <a href="#">Log Out</a>
-      <!-- <footer><img src="solarPump.png"> </footer> -->
-   </div>
-   <div class="row">
-      <div class="nav">
-         <table class="navbartable">
-            <tr>
-               <th></th>
-               <th></th>
-               <th></th>
-               <th></th>
-               <th></th>
-               <th>
-                  <h1>Solar Water Pump Remote Monitoring System</h1>
-               </th>
-               <th></th>
-               <th>Login By : <br> {{request.user.username}} <br> {{request.user.last_login}} </th>
-            </tr>
-         </table>
+  
+      <div class="w-100 h-100" style="max-height: 100vh; overflow-y: scroll;">
 
-      </div>
-   </div>
-   <div class="row">
-      <div class="testingLeftHalf">
+         <div class="100">
+            <div class="w-100 d-md-flex align-items-center justify-content-between gap-3 py-3 px-3 px-md-5 text-white" style="background: linear-gradient(114.3deg, rgb(78, 209, 2) 0.2%, rgb(15, 70, 1) 68.5%);">                 
+                <h2>Solar Water Pump Remote Monitoring System</h2>
+                <div>
+                  <span class="fw-medium">Login By : </span> {{request.user.username}} <br> <span class="fw-medium">{{request.user.last_login}} </span></div>
+            </div>
+          </div>
 
-      </div>
-      <div class="registrationRightHalf">
-         <br>
-         <label class="registrationTitle">For the Registration of a Pump, fill out the following form
-         </label>
-         <form id="myForm" action="/edit/{{rms}}/" method="POST">
-            {% csrf_token %}
-         <br>
-         <table>
-            <tr>
-               <th><label>Contrator Name</label></th>
-               <th><input type="text" value="{{data.contractor_name}}" class="registartionInput" id="ContractorName" placeholder="Contrator Name" name="ContractorName"></th>
-
-            </tr>
-            <tr>
-               <th><label>Beneficiary Name</label></th>
-               <th><input type="text" value="{{data.benificery_name}}" name="BeneficiaryName" class="registartionInput" id="BeneficiaryName" placeholder="Beneficiary Name">
-               </th>
-            </tr>
-            <tr>
-               <th><label>Site Address</label></th>
-               <th><input type="text" value="{{data.site_address}}" name="SiteAddress" class="registartionInput" id="SiteAddress" placeholder="Site Address"></th>
-            </tr>
-            <tr>
-               <th><label>District</label></th>
-               <th><select class="registartionInput" name="District" id="District" placeholder="District">
-                  <option value="{{data.district}}" selected>{{data.district}}</option>
-  <option value="Ahmednagar">Ahmednagar</option>
-  <option value="Akola">Akola</option>
-  <option value="Amravati">Amravati</option>
-  <option value="Aurangabad">Aurangabad</option>
-  <option value="Beed">Beed</option>
-  <option value="Bhandara">Bhandara</option>
-  <option value="Buldhana">Buldhana</option>
-  <option value="Chandrapur">Chandrapur</option>
-  <option value="Dhule">Dhule</option>
-  <option value="Gadchiroli">Gadchiroli</option>
-  <option value="Gondia">Gondia</option>
-  <option value="Hingoli">Hingoli</option>
-  <option value="Jalgaon">Jalgaon</option>
-  <option value="Jalna">Jalna</option>
-  <option value="Kolhapur">Kolhapur</option>
-  <option value="Latur">Latur</option>
-  <option value="Mumbai City">Mumbai City</option>
-  <option value="Mumbai Suburban">Mumbai Suburban</option>
-  <option value="Nagpur">Nagpur</option>
-  <option value="Nanded">Nanded</option>
-  <option value="Nandurbar">Nandurbar</option>
-  <option value="Nashik">Nashik</option>
-  <option value="Osmanabad">Osmanabad</option>
-  <option value="Palghar">Palghar</option>
-  <option value="Parbhani">Parbhani</option>
-  <option value="Pune">Pune</option>
-  <option value="Raigad">Raigad</option>
-  <option value="Ratnagiri">Ratnagiri</option>
-  <option value="Sangli">Sangli</option>
-  <option value="Satara">Satara</option>
-  <option value="Sindhudurg">Sindhudurg</option>
-  <option value="Solapur">Solapur</option>
-  <option value="Thane">Thane</option>
-  <option value="Wardha">Wardha</option>
-  <option value="Washim">Washim</option>
-  <option value="Yavatmal">Yavatmal</option>
-
-               </select></th>
-            </tr>
-            <tr>
-               <th><label>State</label></th>
-               <th><select class="registartionInput" name="State" id="State" placeholder="State">
-                  <option value="{{data.state}}" selected>{{data.state}}</option>
-  <option value="Andhra Pradesh">Andhra Pradesh</option>
-  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-  <option value="Assam">Assam</option>
-  <option value="Bihar">Bihar</option>
-  <option value="Chhattisgarh">Chhattisgarh</option>
-  <option value="Goa">Goa</option>
-  <option value="Gujarat">Gujarat</option>
-  <option value="Haryana">Haryana</option>
-  <option value="Himachal Pradesh">Himachal Pradesh</option>
-  <option value="Jharkhand">Jharkhand</option>
-  <option value="Karnataka">Karnataka</option>
-  <option value="Kerala">Kerala</option>
-  <option value="Madhya Pradesh">Madhya Pradesh</option>
-  <option value="Maharashtra">Maharashtra</option>
-  <option value="Manipur">Manipur</option>
-  <option value="Meghalaya">Meghalaya</option>
-  <option value="Mizoram">Mizoram</option>
-  <option value="Nagaland">Nagaland</option>
-  <option value="Odisha">Odisha</option>
-  <option value="Punjab">Punjab</option>
-  <option value="Rajasthan">Rajasthan</option>
-  <option value="Sikkim">Sikkim</option>
-  <option value="Tamil Nadu">Tamil Nadu</option>
-  <option value="Telangana">Telangana</option>
-  <option value="Tripura">Tripura</option>
-  <option value="Uttar Pradesh">Uttar Pradesh</option>
-  <option value="Uttarakhand">Uttarakhand</option>
-  <option value="West Bengal">West Bengal</option>
-  <!-- Add more options for other states -->
-
-                  </select></th>
-            </tr>
-            <tr>
-               <th><label>Date of Installation</label></th>
-               <th><input type="date" value="{{data.installation_date}}"  name="DateofInstallation" class="registartionInput" id="DateofInstallation"
-                     placeholder="Date of Installation"></th>
-            </tr>
-            <tr>
-               <th><label>Capacity</label></th>
-               <th><select class="registartionInput" name="Capacity" id="Capacity" placeholder="Capacity">
-               <option value="{{data.capacity}}" selected>{{data.capacity}}</option>
-               <option value="1">1 HP</option>
-               <option value="2">2 HP</option>
-               <option value="3">3 HP</option>
-               <option value="4">4 HP</option>
-               <option value="5">5 HP</option>
-               </select></th>
-            </tr>
-            <tr>
-               <th><label>Head</label></th>
-               <th><input type="text" value="{{data.head}}" name="Head"  class="registartionInput" id="Head" placeholder="Head"></th>
-            </tr>
-            <tr>
-               <th><label>Make</label></th>
-               <th><input type="text" value="{{data.make}}" name="Make"  class="registartionInput" id="Make" placeholder="Make"></th>
-            </tr>
-            <tr>
-               <th><label>Motor/Pump Model No.</label></th>
-               <th><input type="text" value="{{data.pump_model_number}}" name="PumpModelNo"  class="registartionInput" id="PumpModelNo" placeholder="Motor/Pump Model No.">
-               </th>
-            </tr>
-            <tr>
-               <th><label>Controller Model No.</label></th>
-               <th><input type="text" value="{{data.controller_model_number}}" name="ControllerModelNo"  class="registartionInput" id="ControllerModelNo"
-                     placeholder="Controller Model No."></th>
-            </tr>
-            <tr>
-               <th><label>Motor/Pump Serial No.</label></th>
-               <th><input type="text" value="{{data.pump_serial_numbers}}"  name="PumpSerialNo" class="registartionInput" id="PumpSerialNo" placeholder="Motor/Pump Serial No.">
-               </th>
-            </tr>
-            <tr>
-               <th><label>Controller Serial No.</label></th>
-               <th><input type="text" value="{{data.controller_serial_numbers}}"  name="ControllerSerialNo" class="registartionInput" id="ControllerSerialNo"
-                     placeholder="Controller Serial No."></th>
-            </tr>
-            <tr>
-               <th><label>RMS ID</label></th>
-               <th><input type="text" value="{{data.rms}}"  name="RMSID" class="registartionInput" id="RMSID" placeholder="RMS ID"></th>
-            </tr>
-            <tr>
-               <th><label>Modem ID</label></th>
-               <th><input type="test" value="{{data.modem_id}}"  name="ModemID" class="registartionInput" id="ModemID" placeholder="Modem ID"></th>
-            </tr>
-            <tr>
-               <th><label>SIM ID</label></th>
-               <th><input type="text" value="{{data.sim_id}}"  name="SIMID" class="registartionInput" id="SIMID" placeholder="SIM ID"></th>
-            </tr>
-            <tr>
-               <th><label>ICCID</label></th>
-               <th><input type="text" value="{{data.iccid}}"  name="ICCID"  class="registartionInput" id="ICCID" placeholder="ICCID"></th>
-            </tr>
-            <tr>
-               <th> <button class="submit" id="submitButton">Submit</button></th>
-            </tr>
-         </table>
-      </form>
-      <tr>
-      <a href="/"><th> <button class="submit" id="">cancel</button></a>
-      </tr>
+         <div class="w-100 p-3">
+            <div class="p-md-4" style="width: fit-content;">
+               <span class="d-block fs-2 fw-semibold mb-4">For the Registration of a Pump, fill out the following form</span>
+               <form class="d-flex flex-wrap gap-4" id="myForm" action="/register_pump/" method="POST">
+                  {% csrf_token %}
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">Contrator Name</label>
+                     <input type="text" class="p-2" id="ContractorName" placeholder="Contrator Name" name="ContractorName" value={{data.contractor_name}}>
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">Beneficiary Name</label>
+                     <input type="text" name="BeneficiaryName" class="p-2 w-100" value={{data.benificery_name}} id="BeneficiaryName" placeholder="Beneficiary Name">
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">Site Address</label>
+                     <input type="text" name="SiteAddress" class="p-2 w-100" id="SiteAddress" value={{data.site_address}} placeholder="Site Address">
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">District</label>
+                     <select class="p-2 w-100 bg-white border border-1 outline-0 border-secondary" name="District" id="District" placeholder="District">
+                        <option value={{data.district}} selected>{{data.district}}</option>
+                        <option value="Ahmednagar">Ahmednagar</option>
+                        <option value="Akola">Akola</option>
+                        <option value="Amravati">Amravati</option>
+                        <option value="Aurangabad">Aurangabad</option>
+                        <option value="Beed">Beed</option>
+                        <option value="Bhandara">Bhandara</option>
+                        <option value="Buldhana">Buldhana</option>
+                        <option value="Chandrapur">Chandrapur</option>
+                        <option value="Dhule">Dhule</option>
+                        <option value="Gadchiroli">Gadchiroli</option>
+                        <option value="Gondia">Gondia</option>
+                        <option value="Hingoli">Hingoli</option>
+                        <option value="Jalgaon">Jalgaon</option>
+                        <option value="Jalna">Jalna</option>
+                        <option value="Kolhapur">Kolhapur</option>
+                        <option value="Latur">Latur</option>
+                        <option value="Mumbai City">Mumbai City</option>
+                        <option value="Mumbai Suburban">Mumbai Suburban</option>
+                        <option value="Nagpur">Nagpur</option>
+                        <option value="Nanded">Nanded</option>
+                        <option value="Nandurbar">Nandurbar</option>
+                        <option value="Nashik">Nashik</option>
+                        <option value="Osmanabad">Osmanabad</option>
+                        <option value="Palghar">Palghar</option>
+                        <option value="Parbhani">Parbhani</option>
+                        <option value="Pune">Pune</option>
+                        <option value="Raigad">Raigad</option>
+                        <option value="Ratnagiri">Ratnagiri</option>
+                        <option value="Sangli">Sangli</option>
+                        <option value="Satara">Satara</option>
+                        <option value="Sindhudurg">Sindhudurg</option>
+                        <option value="Solapur">Solapur</option>
+                        <option value="Thane">Thane</option>
+                        <option value="Wardha">Wardha</option>
+                        <option value="Washim">Washim</option>
+                        <option value="Yavatmal">Yavatmal</option>
+   
+                     </select>
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">State</label>
+                     <select class="p-2 w-100 bg-white border border-1 outline-0 border-secondary" name="State" id="State" placeholder="State">
+                        <option value={{data.state}} selected>{{data.state}}</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+                        <!-- Add more options for other states -->
+      
+                     </select>
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">Date of Installation</label>
+                     <input type="date" name="DateofInstallation" value={{data.installation_date}}  class="p-2 w-100" id="DateofInstallation"placeholder="Date of Installation">
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">Capacity</label>
+                     <select class="p-2 w-100 bg-white border border-1 outline-0 border-secondary" name="Capacity" id="Capacity" placeholder="Capacity">
+                        <option value={{data.capacity}} selected >{{data.capacity}}</option>
+                        <option value="1">1 HP</option>
+                        <option value="2">2 HP</option>
+                        <option value="3">3 HP</option>
+                        <option value="4">4 HP</option>
+                        <option value="5">5 HP</option>
+                     </select>
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">Head</label>
+                     <input type="text" name="Head"  class="p-2 w-100" value={{data.head}}  id="Head" placeholder="Head" />
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">Make</label>
+                     <input type="text" name="Make" value={{data.make}}  class="p-2 w-100" id="Make" placeholder="Make">
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">Motor/Pump Model No.</label>
+                     <input type="text" name="PumpModelNo" value={{data.pump_model_number}}  class="p-2 w-100" id="PumpModelNo" placeholder="Motor/Pump Model No.">
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">Controller Model No.</label>
+                     <input type="text" name="ControllerModelNo" value={{data.controller_model_number}} class="p-2 w-100" id="ControllerModelNo" placeholder="Controller Model No.">
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">Motor/Pump Serial No.</label>
+                     <input type="text" name="PumpSerialNo" value={{data.pump_serial_numbers}} class="p-2 w-100" id="PumpSerialNo" placeholder="Motor/Pump Serial No.">
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">Controller Serial No.</label>
+                     <input type="text" name="ControllerSerialNo" value={{data.controller_serial_numbers}}  class="p-2 w-100" id="ControllerSerialNo" placeholder="Controller Serial No.">
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">RMS ID</label>
+                     <input type="text" name="RMSID" value={{rms}}  class="p-2 w-100" id="RMSID" placeholder="RMS ID">
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">Modem ID</label>
+                     <input type="test" name="ModemID" value={{data.modem_id}} class="p-2 w-100" id="ModemID" placeholder="Modem ID">
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1">
+                     <label class="fs-6 fw-semibold">SIM ID</label>
+                     <input type="text" name="SIMID" value={{data.sim_id}} class="p-2 w-100" id="SIMID" placeholder="SIM ID">
+                  </div>
+                  <div style="max-width: 550px" class="w-100 d-flex flex-column gap-1 align-self-start">
+                     <label class="fs-6 fw-semibold">ICCID</label></th>
+                     <input type="text" name="ICCID" value={{data.iccid}} class="p-2 w-100" id="ICCID" placeholder="ICCID">
+                  </div>
+                  <div class="w-100 mt-2 mb-5">
+                     <button class="submit w-100 fs-5 fw-semibold" id="submitButton">Submit</button>
+                  </div>
+               </form>
+            </div>
+         </div>
       </div>
    </div>
-   </table>
-   </form>
-   </section>
-   </div>
+
    <script>
       document.getElementById("submitButton").addEventListener("click", function(event) {
         var formFields = document.querySelectorAll(".registartionInput");
@@ -240,7 +244,17 @@
           alert("Please fill in all fields before submitting.");
         }
       });
-      </script>
+   </script>
+   <script>
+      document.getElementById("menutoggler").addEventListener("click", ()=>{
+         document.getElementById("nav").classList.toggle("d-none");
+      })
+   </script>
+
+   <!-- Bootstrap Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
 </body>
 
 </html>

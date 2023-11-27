@@ -4,8 +4,8 @@ from django.db import models
 
 
 class water_tank(models.Model):
-    rms = models.CharField(max_length=300,blank=True,null=True)
-    pump_status = models.CharField(max_length=300,blank=True,null=True)
+    rms = models.CharField(max_length=300,blank=True,null=True,unique=True)
+    pump_status = models.CharField(max_length=300,blank=True,null=True,default="OF")
     location = models.CharField(max_length=300,blank=True,null=True)
     district = models.CharField(max_length=300,blank=True,null=True)
     state = models.CharField(max_length=300,blank=True,null=True)
@@ -48,7 +48,7 @@ class water_tank(models.Model):
 
 
 class water_tank_records(models.Model): # this is for storing one all post request
-    rms = models.CharField(max_length=300,blank=True,null=True)
+    rms = models.CharField(max_length=300,blank=True,null=True,unique=True)
     cumulative_lpd = models.FloatField(max_length=300,blank=True,null=True)
     current_lpm = models.FloatField(max_length=300,blank=True,null=True)
     voltage = models.FloatField(max_length=300,blank=True,null=True)
@@ -58,14 +58,14 @@ class water_tank_records(models.Model): # this is for storing one all post reque
     present_lpm = models.FloatField(max_length=300,blank=True,null=True)
     start_time = models.TimeField(blank=True,null=True)
     stop_time = models.TimeField(blank=True,null=True)
-    run_time_today = models.TimeField(blank=True,null=True)
+    run_time_today = models.CharField(max_length=300,blank=True,null=True)
     signal_strength = models.CharField(max_length=300,blank=True,null=True)
     time = models.TimeField(auto_now=True,blank=True,null=True)
     date = models.DateField(auto_now=True,blank=True,null=True)
 
 
 class water_tank_records_temp(models.Model): # this is for storing one current post request. Previous wont be stored in this 
-    rms = models.CharField(max_length=300,blank=True,null=True)
+    rms = models.CharField(max_length=300,blank=True,null=True,unique=True)
     cumulative_lpd = models.FloatField(max_length=300,blank=True,null=True)
     current_lpm = models.FloatField(max_length=300,blank=True,null=True)
     voltage = models.FloatField(max_length=300,blank=True,null=True)
@@ -75,7 +75,7 @@ class water_tank_records_temp(models.Model): # this is for storing one current p
     present_lpm = models.FloatField(max_length=300,blank=True,null=True)
     start_time = models.TimeField(blank=True,null=True)
     stop_time = models.TimeField(max_length=300,blank=True,null=True)
-    run_time_today = models.TimeField(blank=True,null=True)
+    run_time_today = models.CharField(max_length=300,blank=True,null=True)
     signal_strength = models.CharField(max_length=300,blank=True,null=True)
     time = models.TimeField(auto_now=True,blank=True,null=True)
     date = models.DateField(auto_now=True,blank=True,null=True)

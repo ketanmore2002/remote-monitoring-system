@@ -425,6 +425,8 @@ def user_data_delete(request,id):
     User.objects.get(id=id).delete()  # Replace 'username_here' with the actual username
     return redirect("/costumer_management")
 
+
+import re
 @csrf_exempt
 def create_node (request) :
     if request.method == 'POST':
@@ -444,6 +446,7 @@ def create_node (request) :
             # run_time_today = start_time - stop_time
 
             run_time_today = datetime.combine(date.min, stop_time) - datetime.combine(date.min, start_time)
+            # run_time_today = re.sub(r'\b(?:am|pm)\b', '', str(run_time_today), flags=re.IGNORECASE)
 
             # print(run_time_today)
 
@@ -451,9 +454,7 @@ def create_node (request) :
 
                 obj = water_tank_records_temp.objects.filter(rms = dict_data["rms"]).last()
 
-                cumulative_lpd = (str(obj.cumulative_lpd + float(dict_data["present_lpm"]))[:-3])
-
-                print(cumulative_lpd)
+                cumulative_lpd = obj.cumulative_lpd + float(dict_data["present_lpm"])
             
                 water_tank_records_temp.objects.create(rms = dict_data["rms"] , cumulative_lpd = cumulative_lpd ,voltage = float(dict_data["voltage"]) , 
                                                        current = float(dict_data["current"]) , power = float(dict_data["power"]) , wattage = float(dict_data["wattage"]) , 
@@ -463,8 +464,7 @@ def create_node (request) :
         
             else :
 
-                cumulative_lpd = (str(obj.cumulative_lpd + float(dict_data["present_lpm"]))[:-3])
-                print(cumulative_lpd)
+                cumulative_lpd = float(dict_data["present_lpm"])
 
                 water_tank_records_temp.objects.create(rms = dict_data["rms"] , cumulative_lpd = cumulative_lpd , 
                                                        voltage = float(dict_data["voltage"]) , 

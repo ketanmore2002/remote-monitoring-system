@@ -15,6 +15,10 @@ class water_tank(models.Model):
     capacity = models.CharField(max_length=300,blank=True,null=True)
     head = models.CharField(max_length=300,blank=True,null=True)
 
+    longitude = models.CharField(max_length=300,blank=True,null=True)
+    latitude = models.CharField(max_length=300,blank=True,null=True)
+
+
     pump_serial_numbers = models.CharField(max_length=300,blank=True,null=True)
     pump_model_number = models.CharField(max_length=300,blank=True,null=True)
     controller_model_number = models.CharField(max_length=300,blank=True,null=True)
@@ -48,7 +52,7 @@ class water_tank(models.Model):
 
 
 class water_tank_records(models.Model): # this is for storing one all post request
-    rms = models.CharField(max_length=300,blank=True,null=True,unique=True)
+    rms = models.CharField(max_length=300,blank=True,null=True)
     cumulative_lpd = models.FloatField(max_length=300,blank=True,null=True)
     current_lpm = models.FloatField(max_length=300,blank=True,null=True)
     voltage = models.FloatField(max_length=300,blank=True,null=True)
@@ -65,7 +69,7 @@ class water_tank_records(models.Model): # this is for storing one all post reque
 
 
 class water_tank_records_temp(models.Model): # this is for storing one current post request. Previous wont be stored in this 
-    rms = models.CharField(max_length=300,blank=True,null=True,unique=True)
+    rms = models.CharField(max_length=300,blank=True,null=True)
     cumulative_lpd = models.FloatField(max_length=300,blank=True,null=True)
     current_lpm = models.FloatField(max_length=300,blank=True,null=True)
     voltage = models.FloatField(max_length=300,blank=True,null=True)

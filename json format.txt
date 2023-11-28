@@ -1,0 +1,15 @@
+{
+    "topic" :"django/mqtt",
+    "rms": "rms",
+    "pump_status": "ON",
+    "present_lpm":2,
+    "wattage" : 2,
+    "voltage" : 2,
+    "current" : 2,
+    "power" : 2,
+    "start_time" : "4:00",
+    "stop_time" : "5:00",
+    "signal_strength" : 10
+    // "longitude" : "38.8951" , 
+    // "latitude" : "77.0364"
+}

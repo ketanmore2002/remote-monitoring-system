@@ -229,6 +229,8 @@ def register_pump(request):
         sim_id = request.POST.get('SIMID')
         iccid = request.POST.get('ICCID')
         head = request.POST.get('Head')
+        longitude = request.POST.get('longitude')
+        latitude = request.POST.get('latitude')
         
         # Create and save a new water_tank instance
         water_tank_obj = water_tank(
@@ -249,7 +251,9 @@ def register_pump(request):
             sim_id=sim_id,
             iccid=iccid,
             created_by = request.user.id,
-            head = head
+            head = head,
+            longitude = longitude,
+            latitude = latitude
         )
         water_tank_obj.save()
         
@@ -281,12 +285,14 @@ def edit_pump(request,rms):
         sim_id = request.POST.get('SIMID')
         iccid = request.POST.get('ICCID')
         head = request.POST.get('Head')
+        longitude = request.POST.get('longitude')
+        latitude = request.POST.get('latitude')
         
         # Create and save a new water_tank instance
         water_tank.objects.filter(rms=rms).update(contractor_name=contractor_name,benificery_name=beneficiary_name,site_address=site_address,
                                                                 district=district,state=state,installation_date=date_of_installation,capacity=capacity,make=make,pump_model_number=pump_model_no,
                                                                 controller_model_number=controller_model_no,pump_serial_numbers=pump_serial_no,controller_serial_numbers=controller_serial_no,
-                                                                rms=rms_id,modem_id=modem_id,sim_id=sim_id,iccid=iccid,head = head
+                                                                modem_id=modem_id,sim_id=sim_id,iccid=iccid,head = head,longitude = longitude,latitude = latitude
                                                                 )
         # water_tank_obj.save()
         
@@ -298,6 +304,8 @@ def edit_pump(request,rms):
 @login_required(login_url='/login')
 def delete_pump (request,rms):
     water_tank.objects.filter(rms=rms).delete()
+    water_tank_records.objects.filter(rms=rms).delete()
+    water_tank_records_temp.objects.filter(rms=rms).delete()
     return redirect('/')  # Change 'success_page' to your desired URL
 
 
@@ -426,16 +434,18 @@ def user_data_delete(request,id):
     return redirect("/costumer_management")
 
 
-import re
 @csrf_exempt
 def create_node (request) :
     if request.method == 'POST':
         dict_data = json.loads(request.body.decode('UTF-8'))
-        topic = dict_data.get("topic")
+        # topic = dict_data.get("topic")
         # print(dict_data)
         del dict_data['topic']
 
         if water_tank.objects.filter(rms = dict_data["rms"]).exists() :
+
+            if "longitude" and "latitude" in dict_data :
+                water_tank.objects.filter(rms = dict_data["rms"]).update(longitude = dict_data['longitude'] , latitude = dict_data['latitude'])
 
             # start_time = datetime.strptime(dict_data["start_time"], "%H:%M:%S").time()
             # stop_time = datetime.strptime(dict_data["stop_time"], "%H:%M:%S").time()

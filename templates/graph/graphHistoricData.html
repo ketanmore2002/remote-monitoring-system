@@ -87,7 +87,7 @@
               <select class="bg-white border border-2 border-secondary p-2 rounded-2 fs-5" placeholder="RMS ID" id="rms-selector">
                 <option aria-placeholder="" disabled selected>Select Option</option>
                 {% for i in data2 %}
-                <option aria-placeholder="RMSID" id = "{{i.rms}}">{{i.rms}}</option>
+                <option aria-placeholder="RMSID" id = "{{i}}">{{i}}</option>
                 {% endfor %}
               </select>
             </div>
@@ -134,15 +134,19 @@
       var test = {{run_time|safe}}
       var new_arr = test.map((ele)=>{
         return parseFloat(ele);
-      })
+      }) 
+
+      {% comment %} console.log(test) {% endcomment %}
+
 
       document.addEventListener("DOMContentLoaded", function() {
+
           const data_1 = {
           labels: {{date|safe}},
           datasets: [{
-            label: 'Sample Data',
-            data: new_arr,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            label: 'run time',
+            data: {{run_time|safe}},
+            backgroundColor: 'rgba(44, 162, 235, 0.6)'
           }]
         };
     
@@ -167,8 +171,8 @@
         const data_2 = {
           labels: {{date|safe}},
           datasets: [{
-            label: 'Sample Data',
-            data: new_arr,
+            label: 'lpd',
+            data: {{lpd|safe}},
             backgroundColor: 'rgba(54, 162, 235, 0.6)'
           }]
         };
@@ -191,10 +195,65 @@
         const chart_2 = new Chart(ctx_2, config_2);
 
 
-        // console.log({{run_time|safe}})
 
       }); 
       
+    </script>
+   
+      <script>
+      
+        document.getElementById("btn-search").addEventListener("click", function() {
+  
+          const rmsSelector = document.getElementById("rms-selector");
+          const selectedRMS = rmsSelector.options[rmsSelector.selectedIndex].value;
+  
+          const startDate = document.getElementById("start_date").value;
+          const stopDate = document.getElementById("stop_date").value;
+      
+          if ( selectedRMS === "Select Option") {
+              alert("Please select an RMS value");
+              return; // Stop further execution
+          }
+      
+          if (!startDate || !stopDate) {
+              alert("Please select both start date and stop date");
+              return; // Stop further execution
+          }
+      
+          const selectedRMS_ = rmsSelector.options[rmsSelector.selectedIndex].value;
+      
+          const baseUrl = "/history_table/search/";
+          const url = `${baseUrl}${selectedRMS_}/${startDate}/${stopDate}`;
+      
+          window.location.href = url;
+       });
+      
+  
+        document.getElementById("btn-search-graph").addEventListener("click", function() {
+  
+          const rmsSelector = document.getElementById("rms-selector");
+          const selectedRMS = rmsSelector.options[rmsSelector.selectedIndex].value;
+  
+          const startDate = document.getElementById("start_date").value;
+          const stopDate = document.getElementById("stop_date").value;
+      
+          if ( selectedRMS === "Select Option") {
+              alert("Please select an RMS value");
+              return; // Stop further execution
+          }
+      
+          if (!startDate || !stopDate) {
+              alert("Please select both start date and stop date");
+              return; // Stop further execution
+          }
+      
+          const selectedRMS_ = rmsSelector.options[rmsSelector.selectedIndex].value;
+          
+          const baseUrl = "/graph/search/";
+          const url = `${baseUrl}${selectedRMS_}/${startDate}/${stopDate}`;
+          
+          window.location.href = url;
+        });
     </script>
 </body>
 </html>

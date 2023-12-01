@@ -346,7 +346,7 @@ def history_table(request,rms):
     data =  water_tank_records.objects.filter(rms=rms).reverse()
     data2 =  water_tank.objects.all()
     return render(request,'tableHistoricData.html',{"data":data,"data2":data2})
-# graph
+
 
 def history_table_search(request,rms,start_date,stop_date):
     data =  water_tank_records.objects.filter( rms=rms, date__range=(start_date, stop_date) )
@@ -354,18 +354,21 @@ def history_table_search(request,rms,start_date,stop_date):
     return render(request,'tableHistoricData.html',{"data":data,"data2":data2})
 
 
-# voltage_std = (list(voltage_model.objects.filter(uuid = dict_data["uuid"],date__range=(request.data["start_date"], request.data["end_date"]),time__range=(x,y)).values_list('voltage', flat=True)) )
 
 
 def graph_search(request,rms,start_date,stop_date):
     
     run_time =  list(water_tank_records.objects.filter( rms=rms, date__range=(start_date, stop_date)).values_list("run_time_today",flat=True))
-    run_time = [time_obj.strftime("%H:%M") for time_obj in run_time]
+    run_time = [datetime.strptime(time_str, "%H:%M:%S").hour +datetime.strptime(time_str, "%H:%M:%S").minute / 60 +datetime.strptime(time_str, "%H:%M:%S").second / 3600 for time_str in run_time]
+
+
     date =  list(water_tank_records.objects.filter( rms=rms, date__range=(start_date, stop_date)).values_list("date",flat=True))
     date = [date_obj.strftime("%Y-%m-%d") for date_obj in date]
-    data =  water_tank.objects.all()#.values_list("rms",flat=True)
-    # print(run_time, date)
-    return render(request,'graph/graphHistoricData.html',{"run_time":run_time,"date":date , "data":data})
+
+    lpd =  list(water_tank_records.objects.all().values_list("cumulative_lpd",flat=True))
+
+    data2 = list(water_tank.objects.all().values_list("rms",flat=True))
+    return render(request,'graph/graphHistoricData.html',{"run_time":run_time,"date":date , "lpd":lpd , "data2":data2})
 
 from django.contrib.auth.models import User
 def costumer_management(request):

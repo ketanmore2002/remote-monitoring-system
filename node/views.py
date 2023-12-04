@@ -506,3 +506,5 @@ def create_node (request) :
 
 
 
+def version(request):
+    return HttpResponse("2.0")

@@ -47,4 +47,5 @@ urlpatterns = [
         path("graph/search/<str:rms>/<str:start_date>/<str:stop_date>/",views.graph_search,name='graph_search'),
         path("edit/<str:rms>/",views.edit_pump,name='edit_pump'),
         path("delete/<str:rms>/",views.delete_pump,name='delete_pump'),
+        path("version/",views.version,name='version'),
   ]
